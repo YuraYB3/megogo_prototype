@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:megogo_prototype/app/common/widgets/cached_image.dart';
 import 'package:megogo_prototype/app/screens/home/home_view_model.dart';
 import 'package:megogo_prototype/app/theme/colors_palette.dart';
+import 'package:megogo_prototype/domain/movie/imovie.dart';
 
 class HomeView extends StatefulWidget {
   final HomeViewModel model;
@@ -11,6 +13,11 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +33,7 @@ class _HomeViewState extends State<HomeView> {
               const Divider(),
               const Center(
                 child: Text(
-                  'TOP 10 MOVIES',
+                  'TOP MOVIES',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 48,
@@ -35,40 +42,57 @@ class _HomeViewState extends State<HomeView> {
               ),
               const Divider(),
               Expanded(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 8.0,
-                    crossAxisSpacing: 8.0,
-                  ),
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        widget.model.onCellClicked();
-                      },
-                      child: Container(
-                        height: 500,
-                        color: Colors.white,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Center(
-                              child: Text(
-                                "Item$index}",
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            const Text('data'),
-                          ],
+                child: StreamBuilder<List<IMovie>>(
+                  stream: widget.model.movieStreamList,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return const Center(
+                        child: Text(""),
+                      );
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
                         ),
+                      );
+                    }
+                    final List<IMovie> movieData = snapshot.data!;
+                    return GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.8,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5,
                       ),
+                      itemCount: movieData.length,
+                      itemBuilder: (context, index) {
+                        final IMovie movie = movieData[index];
+                        return GestureDetector(
+                          onTap: () {
+                            widget.model.onCellClicked();
+                          },
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  child: CachedImageWidget(
+                                    imageUrl: movie.poster,
+                                    height:
+                                        MediaQuery.of(context).size.height * 0.25,
+                                    shape: BoxShape.rectangle,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.3,
+                                  ),
+                                )
+                              ]),
+                        );
+                      },
+                      padding: const EdgeInsets.all(8.0),
                     );
                   },
-                  padding: const EdgeInsets.all(8.0),
                 ),
               ),
             ],
