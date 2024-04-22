@@ -46,8 +46,11 @@ class _HomeViewState extends State<HomeView> {
                   stream: widget.model.movieStreamList,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
-                      return const Center(
-                        child: Text(""),
+                      return  Center(
+                        child: Text("ERROR${snapshot.error}", style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 24
+                        ),),
                       );
                     }
                     if (snapshot.connectionState == ConnectionState.waiting) {
