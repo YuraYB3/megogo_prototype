@@ -1,1 +1,2 @@
-const String routeHome ='home';
+const String routeHome = 'home';
+const String routeDetails = 'details';
