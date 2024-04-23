@@ -5,7 +5,7 @@ import '../../../utils/video_player_util.dart';
 
 class VideoScreen extends StatefulWidget {
   final String url;
-  final VideoPlayerUtil videoPlayerUtil = VideoPlayerUtil();
+  late VideoPlayerUtil videoPlayerUtil;
   VideoScreen({
     super.key,
     required this.url,
@@ -18,7 +18,7 @@ class VideoScreen extends StatefulWidget {
 class _VideoTileState extends State<VideoScreen> {
   @override
   void initState() {
-    widget.videoPlayerUtil.initVideoPlayer(widget.url);
+    widget.videoPlayerUtil = VideoPlayerUtil(videoUrl: widget.url);
     super.initState();
   }
 
@@ -30,37 +30,26 @@ class _VideoTileState extends State<VideoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.videoPlayerUtil.isInitialized
-        ? FutureBuilder(
-            future: widget.videoPlayerUtil.futureVideoPlayer,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
-                );
-              } else {
-                return GestureDetector(
-                  onTap: () {
-                    widget.videoPlayerUtil.onVideoTaped();
-                  },
-                  child: SizedBox(
-                    child: VideoPlayer(
-                        widget.videoPlayerUtil.videoPlayerController),
-                  ),
-                );
-              }
-            },
-          )
-        : Container(
-            color: Colors.black,
-            height: double.infinity,
-            child: const Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
-              ),
+    return FutureBuilder(
+      future: widget.videoPlayerUtil.initVideoPlayer(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Colors.white,
             ),
           );
+        } else {
+          return GestureDetector(
+            onTap: () {
+              widget.videoPlayerUtil.onVideoTaped();
+            },
+            child: SizedBox(
+              child: VideoPlayer(widget.videoPlayerUtil.videoPlayerController),
+            ),
+          );
+        }
+      },
+    );
   }
 }

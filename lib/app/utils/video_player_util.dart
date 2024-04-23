@@ -11,8 +11,12 @@ class VideoPlayerUtil extends ChangeNotifier {
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
 
-  Future<void> initVideoPlayer(String url) async {
-    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(url));
+  final String videoUrl;
+
+  VideoPlayerUtil({required this.videoUrl});
+
+  Future<void> initVideoPlayer() async {
+    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl));
     _futureVideoPlayer = _videoPlayerController.initialize();
     _isInitialized = true;
     _videoPlayerController.setLooping(true);

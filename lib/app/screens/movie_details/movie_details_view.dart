@@ -4,6 +4,7 @@ import 'package:megogo_prototype/app/theme/colors_palette.dart';
 
 import '../../../domain/movie/imovie.dart';
 import 'widgets/bottom_row_widget.dart';
+import 'widgets/video_screen.dart';
 
 class MovieDetailView extends StatefulWidget {
   final MovieDetailsViewModel model;
@@ -64,13 +65,12 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, horizontalIndex) {
                           return Center(
-                            child: Text(
+                              child: Text(
                               movieData[verticalIndex]
                                   .trailer[horizontalIndex]
                                   .toString(),
                               style: const TextStyle(color: Colors.white),
-                            ),
-                          );
+                            ),);
                         },
                         itemCount: movieData[verticalIndex].trailer.length,
                       );
@@ -98,3 +98,12 @@ VideoScreen(
                               url: movieData[verticalIndex]
                                   .trailer[horizontalIndex]
                                   .toString());*/
+
+/*
+Text(
+                              movieData[verticalIndex]
+                                  .trailer[horizontalIndex]
+                                  .toString(),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            */
