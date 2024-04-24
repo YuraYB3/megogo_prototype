@@ -25,7 +25,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.black12.withOpacity(0),
         foregroundColor: Colors.teal,
       ),
       backgroundColor: mainColor,
@@ -60,10 +60,12 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                       scrollDirection: Axis.vertical,
                       itemBuilder: (context, verticalIndex) {
                         return TrailersListWidget(
+                          onPlayButtonClicked: widget.model.onPlayButtonClicked,
                           onHorizontalScroll: (p0) {
                             widget.model.onHorizontalScroll(p0);
                           },
                           trailersList: movieData[verticalIndex].trailer,
+                          isVideoPlaying: widget.model.isVideoPlaying,
                         );
                       },
                       itemCount: movieData.length,

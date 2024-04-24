@@ -31,7 +31,7 @@ class CachedImageWidget extends StatelessWidget {
         height: height,
         child: const Center(
           child: CircularProgressIndicator(
-            color: Colors.white,
+            color: Colors.teal,
           ),
         ),
       ),

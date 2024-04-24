@@ -8,9 +8,11 @@ class TrailersListWidget extends StatefulWidget {
   const TrailersListWidget(
       {super.key,
       required this.trailersList,
-      required this.onHorizontalScroll});
+      required this.onHorizontalScroll, required this.isVideoPlaying, required this.onPlayButtonClicked});
   final List<dynamic> trailersList;
+  final bool isVideoPlaying;
   final Function(int) onHorizontalScroll;
+  final Function onPlayButtonClicked;
 
   @override
   State<TrailersListWidget> createState() => _TrailersListState();
@@ -57,9 +59,28 @@ class _TrailersListState extends State<TrailersListWidget> {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(20.0),
-            child: AspectRatio(
-              aspectRatio: videoPlayerUtil.controllers[index].value.aspectRatio,
-              child: VideoPlayer(videoPlayerUtil.controllers[index]),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                AspectRatio(
+                  aspectRatio:
+                      videoPlayerUtil.controllers[index].value.aspectRatio,
+                  child: VideoPlayer(videoPlayerUtil.controllers[index]),
+                ),
+                IconButton(
+                  onPressed: () {
+                    videoPlayerUtil.onPlayButtonClicked(index, widget.isVideoPlaying, widget.onPlayButtonClicked);
+                  },
+                  icon: !widget.isVideoPlaying
+                      ? const Icon(Icons.play_arrow,
+                          size: 72, color: Colors.teal)
+                      :  Icon(
+                          Icons.pause,
+                          size: 72,
+                          color: Colors.white.withOpacity(0),
+                        ),
+                )
+              ],
             ),
           );
         },

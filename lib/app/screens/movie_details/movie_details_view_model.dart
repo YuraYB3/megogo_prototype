@@ -16,6 +16,9 @@ class MovieDetailsViewModel extends ChangeNotifier {
   late Stream<List<IMovie>> _movieStreamList;
   Stream<List<IMovie>> get movieStreamList => _movieStreamList;
 
+  bool _isVideoPlaying = false;
+  bool get isVideoPlaying => _isVideoPlaying;
+
   MovieDetailsViewModel({required IMovieRepository movieRepository})
       : _movieRepository = movieRepository {
     _fetchMoviesStream();
@@ -23,12 +26,14 @@ class MovieDetailsViewModel extends ChangeNotifier {
 
   void onHorizontalScroll(int index) {
     _currentHorizontalIndex = index;
+    _isVideoPlaying = false;
     notifyListeners();
   }
 
   void onVerticalScroll(int index) {
     _currentVerticalIndex = index;
     _currentHorizontalIndex = 0;
+    _isVideoPlaying = false;
     notifyListeners();
   }
 
@@ -41,4 +46,11 @@ class MovieDetailsViewModel extends ChangeNotifier {
       print(e.toString());
     }
   }
+
+  void onPlayButtonClicked(){
+    _isVideoPlaying=!_isVideoPlaying;
+    notifyListeners();
+  }
+
+  
 }

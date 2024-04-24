@@ -8,8 +8,9 @@ class VideoPlayerUtil extends ChangeNotifier {
   final List<dynamic> listOfVideos;
   late List<VideoPlayerController> controllers;
   bool _isLoading = true;
-
   bool get isLoading => _isLoading;
+
+
 
   Future<void> initializeControllers(Function setState) async {
     final int controllerCount = listOfVideos.length;
@@ -19,8 +20,6 @@ class VideoPlayerUtil extends ChangeNotifier {
           VideoPlayerController.networkUrl(Uri.parse(listOfVideos[index])),
     );
     await Future.wait(controllers.map((controller) => controller.initialize()));
-    controllers.first.play();
-    controllers.first.setLooping(true);
     _isLoading = false;
     setState();
   }
@@ -33,11 +32,18 @@ class VideoPlayerUtil extends ChangeNotifier {
 
   void handlePageChanged(int value) {
     for (int i = 0; i < controllers.length; i++) {
-      if (i == value) {
-        controllers[i].play();
-      } else {
-        controllers[i].pause();
-      }
+      controllers[i].pause();
     }
+  }
+
+  void onPlayButtonClicked(int index, bool isVideoPlaying, Function changeValueState) {
+    if (isVideoPlaying) {
+      controllers[index].pause();
+    } else {
+      controllers[index].play();
+      controllers[index].setLooping(true);
+    }
+
+    changeValueState();
   }
 }
