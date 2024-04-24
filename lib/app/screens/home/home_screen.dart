@@ -6,15 +6,15 @@ import 'package:megogo_prototype/domain/movie/imovie.dart';
 import 'widgets/custom_grid.dart';
 import 'widgets/header_widget.dart';
 
-class HomeView extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   final HomeViewModel model;
-  const HomeView({required this.model, super.key});
+  const HomeScreen({required this.model, super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();

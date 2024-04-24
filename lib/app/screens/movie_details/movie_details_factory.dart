@@ -10,7 +10,8 @@ class MovieDetailsFactory {
   static Widget build() {
     return ChangeNotifierProvider(
       create: (context) => MovieDetailsViewModel(
-          movieRepository: locator.get<IMovieRepository>()),
+          movieRepository: locator.get<IMovieRepository>(),
+         ),
       child: Consumer<MovieDetailsViewModel>(
         builder: (context, value, child) {
           return MovieDetailView(

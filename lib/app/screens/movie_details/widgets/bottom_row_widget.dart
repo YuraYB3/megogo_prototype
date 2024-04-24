@@ -18,10 +18,12 @@ class BottomRowWidget extends StatelessWidget {
         children: List.generate(listLength, (index) {
           return Padding(
             padding: const EdgeInsets.only(right: 5),
-            child: CircleAvatar(
-              radius: currentHorizontalIndex == index ? 8 : 5,
-              backgroundColor:
-                  currentHorizontalIndex == index ? Colors.teal: Colors.grey,
+            child: GestureDetector(
+              child: CircleAvatar(
+                radius: currentHorizontalIndex == index ? 8 : 5,
+                backgroundColor:
+                    currentHorizontalIndex == index ? Colors.teal: Colors.grey,
+              ),
             ),
           );
         }),

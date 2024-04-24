@@ -21,7 +21,8 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void onCellClicked() {
-    _navigationUtil.navigateTo(routeDetails, data: _movieStreamList);
+    _navigationUtil.navigateTo(routeDetails, data: {
+    });
   }
 
   Future<void> _fetchMoviesStream() async {

@@ -24,6 +24,10 @@ class _MovieDetailViewState extends State<MovieDetailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.teal,
+      ),
       backgroundColor: mainColor,
       body: StreamBuilder<List<IMovie>>(
           stream: widget.model.movieStreamList,
@@ -32,37 +36,38 @@ class _MovieDetailViewState extends State<MovieDetailView> {
               return Center(
                 child: Text(
                   "ERROR${snapshot.error}",
-                  style: const TextStyle(color: Colors.white, fontSize: 24),
+                  style: const TextStyle(color: Colors.teal, fontSize: 24),
                 ),
               );
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.white,
+                  color: Colors.teal,
                 ),
               );
             }
-
             final List<IMovie> movieData = snapshot.data!;
             return Column(
               children: [
                 Expanded(
-                  child: PageView.builder(
-                    onPageChanged: (value) {
-                      widget.model.onVerticalScroll(value);
-                      setState(() {});
-                    },
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, verticalIndex) {
-                      return TrailersListWidget(
-                        onHorizontalScroll: (p0) {
-                          widget.model.onHorizontalScroll(p0);
-                        },
-                        trailersList: movieData[verticalIndex].trailer,
-                      );
-                    },
-                    itemCount: movieData.length,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: PageView.builder(
+                      onPageChanged: (value) {
+                        widget.model.onVerticalScroll(value);
+                      },
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, verticalIndex) {
+                        return TrailersListWidget(
+                          onHorizontalScroll: (p0) {
+                            widget.model.onHorizontalScroll(p0);
+                          },
+                          trailersList: movieData[verticalIndex].trailer,
+                        );
+                      },
+                      itemCount: movieData.length,
+                    ),
                   ),
                 ),
                 BottomRowWidget(
@@ -72,7 +77,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                   currentHorizontalIndex: widget.model.currentHorizontalIndex,
                 ),
                 const SizedBox(
-                  height: 50,
+                  height: 40,
                 )
               ],
             );

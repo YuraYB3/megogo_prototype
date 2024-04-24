@@ -14,7 +14,6 @@ class MovieDetailsViewModel extends ChangeNotifier {
 
   final IMovieRepository _movieRepository;
   late Stream<List<IMovie>> _movieStreamList;
-
   Stream<List<IMovie>> get movieStreamList => _movieStreamList;
 
   MovieDetailsViewModel({required IMovieRepository movieRepository})
@@ -29,12 +28,8 @@ class MovieDetailsViewModel extends ChangeNotifier {
 
   void onVerticalScroll(int index) {
     _currentVerticalIndex = index;
-    _setDefaultValues();
-    notifyListeners();
-  }
-
-  void _setDefaultValues() {
     _currentHorizontalIndex = 0;
+    notifyListeners();
   }
 
   Future<void> _fetchMoviesStream() async {
@@ -45,16 +40,5 @@ class MovieDetailsViewModel extends ChangeNotifier {
     } catch (e) {
       print(e.toString());
     }
-  }
-
-  void moveToPreviousPage() {
-    _currentHorizontalIndex--;
-    notifyListeners();
-  }
-
-  void moveToNextPage() {
-    _currentHorizontalIndex++;
-    print('move to next page $currentHorizontalIndex ');
-    notifyListeners();
   }
 }
