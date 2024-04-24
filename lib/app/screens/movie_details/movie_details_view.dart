@@ -4,7 +4,7 @@ import 'package:megogo_prototype/app/theme/colors_palette.dart';
 
 import '../../../domain/movie/imovie.dart';
 import 'widgets/bottom_row_widget.dart';
-import 'widgets/video_screen.dart';
+import 'widgets/trailers_list_widget.dart';
 
 class MovieDetailView extends StatefulWidget {
   final MovieDetailsViewModel model;
@@ -17,7 +17,6 @@ class MovieDetailView extends StatefulWidget {
 class _MovieDetailViewState extends State<MovieDetailView> {
   @override
   void dispose() {
-    widget.model.disposeControllers();
     super.dispose();
   }
 
@@ -50,29 +49,17 @@ class _MovieDetailViewState extends State<MovieDetailView> {
               children: [
                 Expanded(
                   child: PageView.builder(
-                    controller: widget.model.verticalPageController,
                     onPageChanged: (value) {
                       widget.model.onVerticalScroll(value);
                       setState(() {});
                     },
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, verticalIndex) {
-                      return PageView.builder(
-                        controller: widget.model.horizontalPageController,
-                        onPageChanged: (value) {
-                          widget.model.onHorizontalScroll(value);
+                      return TrailersListWidget(
+                        onHorizontalScroll: (p0) {
+                          widget.model.onHorizontalScroll(p0);
                         },
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, horizontalIndex) {
-                          return Center(
-                              child: Text(
-                              movieData[verticalIndex]
-                                  .trailer[horizontalIndex]
-                                  .toString(),
-                              style: const TextStyle(color: Colors.white),
-                            ),);
-                        },
-                        itemCount: movieData[verticalIndex].trailer.length,
+                        trailersList: movieData[verticalIndex].trailer,
                       );
                     },
                     itemCount: movieData.length,
@@ -93,17 +80,3 @@ class _MovieDetailViewState extends State<MovieDetailView> {
     );
   }
 }
-/*
-VideoScreen(
-                              url: movieData[verticalIndex]
-                                  .trailer[horizontalIndex]
-                                  .toString());*/
-
-/*
-Text(
-                              movieData[verticalIndex]
-                                  .trailer[horizontalIndex]
-                                  .toString(),
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            */

@@ -21,7 +21,7 @@ class BottomRowWidget extends StatelessWidget {
             child: CircleAvatar(
               radius: currentHorizontalIndex == index ? 8 : 5,
               backgroundColor:
-                  currentHorizontalIndex == index ? Colors.white : Colors.grey,
+                  currentHorizontalIndex == index ? Colors.teal: Colors.grey,
             ),
           );
         }),

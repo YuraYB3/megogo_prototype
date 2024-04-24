@@ -13,17 +13,20 @@ class HeaderWidget extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,
           ),
-          const Divider(),
+          const Divider( color: Colors.teal,),
           const Center(
             child: Text(
               'TOP MOVIES',
               style: TextStyle(
-                  color: Colors.white,
+                   color: Colors.teal,
                   fontSize: 48,
                   fontWeight: FontWeight.bold),
             ),
           ),
-          const Divider(),
+          const Divider(
+            color: Colors.teal,
+          )
+          ,
         ],
       ),
     );

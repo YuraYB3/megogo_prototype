@@ -17,11 +17,6 @@ class MovieDetailsViewModel extends ChangeNotifier {
 
   Stream<List<IMovie>> get movieStreamList => _movieStreamList;
 
-  final PageController _verticalPageController = PageController();
-  PageController get verticalPageController => _verticalPageController;
-  final PageController _horizontalPageController = PageController();
-  PageController get horizontalPageController => _horizontalPageController;
-
   MovieDetailsViewModel({required IMovieRepository movieRepository})
       : _movieRepository = movieRepository {
     _fetchMoviesStream();
@@ -52,8 +47,14 @@ class MovieDetailsViewModel extends ChangeNotifier {
     }
   }
 
-  void disposeControllers() {
-    _horizontalPageController.dispose();
-    _verticalPageController.dispose();
+  void moveToPreviousPage() {
+    _currentHorizontalIndex--;
+    notifyListeners();
+  }
+
+  void moveToNextPage() {
+    _currentHorizontalIndex++;
+    print('move to next page $currentHorizontalIndex ');
+    notifyListeners();
   }
 }
