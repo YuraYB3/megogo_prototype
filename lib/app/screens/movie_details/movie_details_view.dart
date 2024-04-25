@@ -66,7 +66,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                           widget.model.onHorizontalScroll(p0);
                         },
                         trailersList:
-                            movieData[widget.model.currentVerticalIndex]
+                            movieData[verticalIndex]
                                 .trailer,
                       );
                     },

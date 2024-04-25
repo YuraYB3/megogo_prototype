@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerUtil extends ChangeNotifier {
-  VideoPlayerUtil({required this.listOfVideos});
-  final List<dynamic> listOfVideos;
   late List<VideoPlayerController> controllers;
   bool _isLoading = true;
   bool get isLoading => _isLoading;
@@ -13,7 +11,8 @@ class VideoPlayerUtil extends ChangeNotifier {
   bool _isVideoPlaying = false;
   bool get isVideoPlaying => _isVideoPlaying;
 
-  Future<void> initializeControllers(Function setState) async {
+  Future<void> initializeControllers(
+      {required List<dynamic> listOfVideos, required Function setState}) async {
     final int controllerCount = listOfVideos.length;
     controllers = List.generate(
       controllerCount,

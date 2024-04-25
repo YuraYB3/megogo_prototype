@@ -11,7 +11,7 @@ import 'domain/navigation/inavigation_util.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  initServices();
+  init();
   final INavigationUtil navigationUtil = locator<INavigationUtil>();
 
   runApp(

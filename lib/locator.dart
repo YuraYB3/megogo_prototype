@@ -9,7 +9,7 @@ import 'domain/network/inetwork_service.dart';
 
 final locator = GetIt.instance;
 
-void initServices() {
+void init() {
   initNetworkService();
   initNavigation();
   initRepos();

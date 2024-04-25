@@ -22,7 +22,13 @@ class MovieDetailsViewModel extends ChangeNotifier {
       {required IMovieRepository movieRepository, required int movieIndex})
       : _movieRepository = movieRepository,
         _currentVerticalIndex = movieIndex {
+    _init();
+  }
+
+  void _init() async {
     _fetchMoviesStream();
+    _setPageController();
+    notifyListeners();
   }
 
   void onHorizontalScroll(int index) {
@@ -39,16 +45,20 @@ class MovieDetailsViewModel extends ChangeNotifier {
   Future<void> _fetchMoviesStream() async {
     try {
       _movieStreamList = _movieRepository.fetchMoviesStream();
-      _verticalPageController =
-          PageController(initialPage: _currentVerticalIndex);
-      notifyListeners();
       print('got ');
     } catch (e) {
-      print(e.toString());
+      print(
+        e.toString(),
+      );
     }
   }
 
   void disposeControllers() {
     _verticalPageController.dispose();
+  }
+
+  void _setPageController() {
+    _verticalPageController = PageController(
+    );
   }
 }

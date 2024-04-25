@@ -18,14 +18,15 @@ class TrailersListWidget extends StatefulWidget {
 }
 
 class _TrailersListState extends State<TrailersListWidget> {
-  late final VideoPlayerUtil videoPlayerUtil;
+  final VideoPlayerUtil videoPlayerUtil = VideoPlayerUtil();
   @override
   void initState() {
     super.initState();
-    videoPlayerUtil = VideoPlayerUtil(listOfVideos: widget.trailersList);
-    videoPlayerUtil.initializeControllers(() {
-      setState(() {});
-    });
+    videoPlayerUtil.initializeControllers(
+        listOfVideos: widget.trailersList,
+        setState: () {
+          setState(() {});
+        });
   }
 
   @override
