@@ -14,7 +14,7 @@ class MovieDetailsFactory {
           movieIndex: movieId),
       child: Consumer<MovieDetailsViewModel>(
         builder: (context, value, child) {
-          return MovieDetailView(
+          return MovieDetailScreen(
             model: value,
           );
         },

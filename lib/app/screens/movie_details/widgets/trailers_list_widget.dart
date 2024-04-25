@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:megogo_prototype/app/utils/video_player_util.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../theme/colors_palette.dart';
+
 class TrailersListWidget extends StatefulWidget {
   const TrailersListWidget({
     super.key,
@@ -23,7 +25,7 @@ class _TrailersListState extends State<TrailersListWidget> {
   void initState() {
     super.initState();
     videoPlayerUtil.initializeControllers(
-        listOfVideos: widget.trailersList,
+        listOfURLs: widget.trailersList,
         setState: () {
           setState(() {});
         });
@@ -38,19 +40,18 @@ class _TrailersListState extends State<TrailersListWidget> {
   @override
   Widget build(BuildContext context) {
     if (videoPlayerUtil.isLoading) {
-      return const Center(
+      return Center(
         child: SizedBox(
           height: 50,
           width: 50,
           child: CircularProgressIndicator(
-            color: Colors.teal,
+            color: secondaryColor,
           ),
         ),
       );
     } else {
       return PageView.builder(
         onPageChanged: (value) {
-          print('changed');
           videoPlayerUtil.handlePageChanged(value);
           widget.onHorizontalScroll(value);
         },
@@ -78,8 +79,7 @@ class _TrailersListState extends State<TrailersListWidget> {
                     );
                   },
                   icon: !videoPlayerUtil.isVideoPlaying
-                      ? const Icon(Icons.play_arrow,
-                          size: 72, color: Colors.teal)
+                      ? Icon(Icons.play_arrow, size: 72, color: secondaryColor)
                       : Icon(
                           Icons.pause,
                           size: 72,

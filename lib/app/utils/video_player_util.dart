@@ -12,12 +12,14 @@ class VideoPlayerUtil extends ChangeNotifier {
   bool get isVideoPlaying => _isVideoPlaying;
 
   Future<void> initializeControllers(
-      {required List<dynamic> listOfVideos, required Function setState}) async {
-    final int controllerCount = listOfVideos.length;
+      {required List<dynamic> listOfURLs, required Function setState}) async {
     controllers = List.generate(
-      controllerCount,
-      (index) =>
-          VideoPlayerController.networkUrl(Uri.parse(listOfVideos[index])),
+      listOfURLs.length,
+      (index) => VideoPlayerController.networkUrl(
+        Uri.parse(
+          listOfURLs[index],
+        ),
+      ),
     );
     await Future.wait(
       controllers.map(
@@ -32,7 +34,6 @@ class VideoPlayerUtil extends ChangeNotifier {
     for (var controller in controllers) {
       controller.dispose();
     }
-    print('we here');
   }
 
   void handlePageChanged(int value) {

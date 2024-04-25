@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:megogo_prototype/app/theme/colors_palette.dart';
 
 class BottomRowWidget extends StatelessWidget {
   const BottomRowWidget({
@@ -17,12 +18,15 @@ class BottomRowWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(listLength, (index) {
           return Padding(
-            padding: const EdgeInsets.only(right: 5),
+            padding:  const EdgeInsets.only(right: 5),
             child: GestureDetector(
+              onTap: () {
+                
+              },
               child: CircleAvatar(
                 radius: currentHorizontalIndex == index ? 8 : 5,
                 backgroundColor:
-                    currentHorizontalIndex == index ? Colors.teal: Colors.grey,
+                    currentHorizontalIndex == index ? secondaryColor : Colors.grey,
               ),
             ),
           );

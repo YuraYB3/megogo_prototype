@@ -1,4 +1,5 @@
-import 'dart:ui';
+
+import 'package:flutter/material.dart';
 
   Color mainColor = const Color.fromARGB(255, 0, 0, 0);
-  Color secondaryColor = const Color.fromARGB(255, 255, 255, 255);
+  Color secondaryColor =  Colors.teal;

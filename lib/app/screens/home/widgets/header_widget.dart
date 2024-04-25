@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../theme/colors_palette.dart';
+
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({
     super.key,
@@ -13,18 +15,18 @@ class HeaderWidget extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,
           ),
-          const Divider( color: Colors.teal,),
-          const Center(
+           Divider( color: secondaryColor,),
+           Center(
             child: Text(
               'TOP MOVIES',
               style: TextStyle(
-                   color: Colors.teal,
+                   color: secondaryColor,
                   fontSize: 48,
                   fontWeight: FontWeight.bold),
             ),
           ),
-          const Divider(
-            color: Colors.teal,
+           Divider(
+            color: secondaryColor,
           )
           ,
         ],

@@ -38,15 +38,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       return Center(
                         child: Text(
                           "ERROR${snapshot.error}",
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 24),
+                          style:  TextStyle(
+                              color: secondaryColor, fontSize: 24),
                         ),
                       );
                     }
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
+                      return  Center(
                         child: CircularProgressIndicator(
-                          color: Colors.white,
+                          color: secondaryColor,
                         ),
                       );
                     }

@@ -6,15 +6,15 @@ import '../../../domain/movie/imovie.dart';
 import 'widgets/bottom_row_widget.dart';
 import 'widgets/trailers_list_widget.dart';
 
-class MovieDetailView extends StatefulWidget {
+class MovieDetailScreen extends StatefulWidget {
   final MovieDetailsViewModel model;
-  const MovieDetailView({super.key, required this.model});
+  const MovieDetailScreen({super.key, required this.model});
 
   @override
-  State<MovieDetailView> createState() => _MovieDetailViewState();
+  State<MovieDetailScreen> createState() => _MovieDetailScreenState();
 }
 
-class _MovieDetailViewState extends State<MovieDetailView> {
+class _MovieDetailScreenState extends State<MovieDetailScreen> {
   @override
   void dispose() {
     super.dispose();
@@ -26,8 +26,8 @@ class _MovieDetailViewState extends State<MovieDetailView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.black12.withOpacity(0),
-        foregroundColor: Colors.teal,
+        backgroundColor: mainColor,
+        foregroundColor: secondaryColor,
       ),
       backgroundColor: mainColor,
       body: StreamBuilder<List<IMovie>>(
@@ -37,15 +37,13 @@ class _MovieDetailViewState extends State<MovieDetailView> {
             return Center(
               child: Text(
                 "ERROR${snapshot.error}",
-                style: const TextStyle(color: Colors.teal, fontSize: 24),
+                style: TextStyle(color: secondaryColor, fontSize: 24),
               ),
             );
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.teal,
-              ),
+            return Center(
+              child: CircularProgressIndicator(color: secondaryColor),
             );
           }
           final List<IMovie> movieData = snapshot.data!;
@@ -65,9 +63,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                         onHorizontalScroll: (p0) {
                           widget.model.onHorizontalScroll(p0);
                         },
-                        trailersList:
-                            movieData[verticalIndex]
-                                .trailer,
+                        trailersList: movieData[verticalIndex].trailer,
                       );
                     },
                     itemCount: movieData.length,
@@ -78,6 +74,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                 listLength:
                     movieData[widget.model.currentVerticalIndex].trailer.length,
                 currentHorizontalIndex: widget.model.currentHorizontalIndex,
+                
               ),
               const SizedBox(
                 height: 40,
