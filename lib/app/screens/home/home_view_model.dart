@@ -20,7 +20,7 @@ class HomeViewModel extends ChangeNotifier {
     _fetchMoviesStream();
   }
 
-  void onCellClicked(int movieId) {
+  void onPosterClicked(int movieId) {
     _navigationUtil.navigateTo(routeDetails, data: movieId);
   }
 

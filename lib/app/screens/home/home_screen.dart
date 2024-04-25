@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     final List<IMovie> movieData = snapshot.data!;
                     return CustomGrid(
                       movieData: movieData,
-                      onCellClicked: widget.model.onCellClicked,
+                      onCellClicked: widget.model.onPosterClicked,
                     );
                   },
                 ),

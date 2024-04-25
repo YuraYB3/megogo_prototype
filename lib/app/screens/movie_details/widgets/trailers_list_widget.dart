@@ -11,7 +11,7 @@ class TrailersListWidget extends StatefulWidget {
     required this.onHorizontalScroll,
   });
   final List<dynamic> trailersURLs;
-  final Function(int) onHorizontalScroll;
+  final Function onHorizontalScroll;
 
   @override
   State<TrailersListWidget> createState() => _TrailersListState();

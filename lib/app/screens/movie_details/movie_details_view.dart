@@ -4,7 +4,7 @@ import 'package:megogo_prototype/app/theme/colors_palette.dart';
 
 import '../../../domain/movie/imovie.dart';
 import 'widgets/bottom_row_widget.dart';
-import 'widgets/trailers_list_widget.dart';
+import 'widgets/vertical_list_widget.dart';
 
 class MovieDetailScreen extends StatefulWidget {
   final MovieDetailsViewModel model;
@@ -49,31 +49,16 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
           final List<IMovie> movieData = snapshot.data!;
           return Column(
             children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: PageView.builder(
-                    controller: widget.model.verticalPageController,
-                    onPageChanged: (value) {
-                      widget.model.onVerticalScroll(value);
-                    },
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, verticalIndex) {
-                      return TrailersListWidget(
-                        onHorizontalScroll: (p0) {
-                          widget.model.onHorizontalScroll(p0);
-                        },
-                        trailersURLs: movieData[verticalIndex].trailer,
-                      );
-                    },
-                    itemCount: movieData.length,
-                  ),
-                ),
+              VerticalListWidget(
+                movieData: movieData,
+                onHorizontalScroll: widget.model.onHorizontalScroll,
+                onVerticalScroll: widget.model.onVerticalScroll,
+                verticalPageController: widget.model.verticalPageController,
               ),
               BottomRowWidget(
                 listLength:
                     movieData[widget.model.currentVerticalIndex].trailer.length,
-                currentHorizontalIndex: widget.model.currentHorizontalIndex,          
+                currentHorizontalIndex: widget.model.currentHorizontalIndex,
               ),
               const SizedBox(
                 height: 40,
@@ -85,3 +70,4 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     );
   }
 }
+
