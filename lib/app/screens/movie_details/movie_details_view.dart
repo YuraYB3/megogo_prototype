@@ -18,6 +18,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
   @override
   void dispose() {
     super.dispose();
+    widget.model.disposeControllers();
   }
 
   @override
@@ -30,60 +31,61 @@ class _MovieDetailViewState extends State<MovieDetailView> {
       ),
       backgroundColor: mainColor,
       body: StreamBuilder<List<IMovie>>(
-          stream: widget.model.movieStreamList,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  "ERROR${snapshot.error}",
-                  style: const TextStyle(color: Colors.teal, fontSize: 24),
-                ),
-              );
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.teal,
-                ),
-              );
-            }
-            final List<IMovie> movieData = snapshot.data!;
-            return Column(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: PageView.builder(
-                      onPageChanged: (value) {
-                        widget.model.onVerticalScroll(value);
-                      },
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, verticalIndex) {
-                        return TrailersListWidget(
-                          onPlayButtonClicked: widget.model.onPlayButtonClicked,
-                          onHorizontalScroll: (p0) {
-                            widget.model.onHorizontalScroll(p0);
-                          },
-                          trailersList: movieData[verticalIndex].trailer,
-                          isVideoPlaying: widget.model.isVideoPlaying,
-                        );
-                      },
-                      itemCount: movieData.length,
-                    ),
+        stream: widget.model.movieStreamList,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                "ERROR${snapshot.error}",
+                style: const TextStyle(color: Colors.teal, fontSize: 24),
+              ),
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.teal,
+              ),
+            );
+          }
+          final List<IMovie> movieData = snapshot.data!;
+          return Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: PageView.builder(
+                    controller: widget.model.verticalPageController,
+                    onPageChanged: (value) {
+                      widget.model.onVerticalScroll(value);
+                    },
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, verticalIndex) {
+                      return TrailersListWidget(
+                        onHorizontalScroll: (p0) {
+                          widget.model.onHorizontalScroll(p0);
+                        },
+                        trailersList:
+                            movieData[widget.model.currentVerticalIndex]
+                                .trailer,
+                      );
+                    },
+                    itemCount: movieData.length,
                   ),
                 ),
-                BottomRowWidget(
-                  listLength: movieData[widget.model.currentVerticalIndex]
-                      .trailer
-                      .length,
-                  currentHorizontalIndex: widget.model.currentHorizontalIndex,
-                ),
-                const SizedBox(
-                  height: 40,
-                )
-              ],
-            );
-          }),
+              ),
+              BottomRowWidget(
+                listLength:
+                    movieData[widget.model.currentVerticalIndex].trailer.length,
+                currentHorizontalIndex: widget.model.currentHorizontalIndex,
+              ),
+              const SizedBox(
+                height: 40,
+              )
+            ],
+          );
+        },
+      ),
     );
   }
 }

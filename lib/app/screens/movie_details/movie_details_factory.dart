@@ -7,11 +7,11 @@ import 'movie_details_view.dart';
 import 'movie_details_view_model.dart';
 
 class MovieDetailsFactory {
-  static Widget build() {
+  static Widget build({required int movieId}) {
     return ChangeNotifierProvider(
       create: (context) => MovieDetailsViewModel(
           movieRepository: locator.get<IMovieRepository>(),
-         ),
+          movieIndex: movieId),
       child: Consumer<MovieDetailsViewModel>(
         builder: (context, value, child) {
           return MovieDetailView(

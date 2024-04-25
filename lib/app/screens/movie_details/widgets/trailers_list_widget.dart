@@ -5,14 +5,13 @@ import 'package:megogo_prototype/app/utils/video_player_util.dart';
 import 'package:video_player/video_player.dart';
 
 class TrailersListWidget extends StatefulWidget {
-  const TrailersListWidget(
-      {super.key,
-      required this.trailersList,
-      required this.onHorizontalScroll, required this.isVideoPlaying, required this.onPlayButtonClicked});
+  const TrailersListWidget({
+    super.key,
+    required this.trailersList,
+    required this.onHorizontalScroll,
+  });
   final List<dynamic> trailersList;
-  final bool isVideoPlaying;
   final Function(int) onHorizontalScroll;
-  final Function onPlayButtonClicked;
 
   @override
   State<TrailersListWidget> createState() => _TrailersListState();
@@ -69,12 +68,18 @@ class _TrailersListState extends State<TrailersListWidget> {
                 ),
                 IconButton(
                   onPressed: () {
-                    videoPlayerUtil.onPlayButtonClicked(index, widget.isVideoPlaying, widget.onPlayButtonClicked);
+                    videoPlayerUtil.onPlayButtonClicked(
+                      index,
+                      videoPlayerUtil.isVideoPlaying,
+                      () {
+                        setState(() {});
+                      },
+                    );
                   },
-                  icon: !widget.isVideoPlaying
+                  icon: !videoPlayerUtil.isVideoPlaying
                       ? const Icon(Icons.play_arrow,
                           size: 72, color: Colors.teal)
-                      :  Icon(
+                      : Icon(
                           Icons.pause,
                           size: 72,
                           color: Colors.white.withOpacity(0),

@@ -27,6 +27,6 @@ class AppRouter {
   }
 
   Widget _buildMovieDetailsSettings(RouteSettings settings) {
-    return MovieDetailsFactory.build();
+    return MovieDetailsFactory.build(movieId: settings.arguments as int);
   }
 }

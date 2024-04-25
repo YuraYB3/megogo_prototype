@@ -10,7 +10,8 @@ class VideoPlayerUtil extends ChangeNotifier {
   bool _isLoading = true;
   bool get isLoading => _isLoading;
 
-
+  bool _isVideoPlaying = false;
+  bool get isVideoPlaying => _isVideoPlaying;
 
   Future<void> initializeControllers(Function setState) async {
     final int controllerCount = listOfVideos.length;
@@ -19,7 +20,11 @@ class VideoPlayerUtil extends ChangeNotifier {
       (index) =>
           VideoPlayerController.networkUrl(Uri.parse(listOfVideos[index])),
     );
-    await Future.wait(controllers.map((controller) => controller.initialize()));
+    await Future.wait(
+      controllers.map(
+        (controller) => controller.initialize(),
+      ),
+    );
     _isLoading = false;
     setState();
   }
@@ -28,22 +33,24 @@ class VideoPlayerUtil extends ChangeNotifier {
     for (var controller in controllers) {
       controller.dispose();
     }
+    print('we here');
   }
 
   void handlePageChanged(int value) {
     for (int i = 0; i < controllers.length; i++) {
       controllers[i].pause();
     }
+    _isVideoPlaying = false;
   }
 
-  void onPlayButtonClicked(int index, bool isVideoPlaying, Function changeValueState) {
+  void onPlayButtonClicked(int index, bool isVideoPlaying, Function setState) {
     if (isVideoPlaying) {
       controllers[index].pause();
     } else {
       controllers[index].play();
       controllers[index].setLooping(true);
     }
-
-    changeValueState();
+    _isVideoPlaying = !_isVideoPlaying;
+    setState();
   }
 }
