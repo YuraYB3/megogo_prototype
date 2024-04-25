@@ -12,7 +12,7 @@ class VideoPlayerUtil extends ChangeNotifier {
   bool get isVideoPlaying => _isVideoPlaying;
 
   Future<void> initializeControllers(
-      {required List<dynamic> listOfURLs, required Function setState}) async {
+      {required List<dynamic> listOfURLs}) async {
     controllers = List.generate(
       listOfURLs.length,
       (index) => VideoPlayerController.networkUrl(
@@ -27,7 +27,6 @@ class VideoPlayerUtil extends ChangeNotifier {
       ),
     );
     _isLoading = false;
-    setState();
   }
 
   void disposeControllers() {
@@ -43,7 +42,7 @@ class VideoPlayerUtil extends ChangeNotifier {
     _isVideoPlaying = false;
   }
 
-  void onPlayButtonClicked(int index, bool isVideoPlaying, Function setState) {
+  Future<void> onPlayButtonClicked(int index, bool isVideoPlaying) async {
     if (isVideoPlaying) {
       controllers[index].pause();
     } else {
@@ -51,6 +50,5 @@ class VideoPlayerUtil extends ChangeNotifier {
       controllers[index].setLooping(true);
     }
     _isVideoPlaying = !_isVideoPlaying;
-    setState();
   }
 }

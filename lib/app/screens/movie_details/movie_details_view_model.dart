@@ -45,7 +45,6 @@ class MovieDetailsViewModel extends ChangeNotifier {
   Future<void> _fetchMoviesStream() async {
     try {
       _movieStreamList = _movieRepository.fetchMoviesStream();
-      print('got ');
     } catch (e) {
       print(
         e.toString(),

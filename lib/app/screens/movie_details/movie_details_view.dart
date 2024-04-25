@@ -63,7 +63,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                         onHorizontalScroll: (p0) {
                           widget.model.onHorizontalScroll(p0);
                         },
-                        trailersList: movieData[verticalIndex].trailer,
+                        trailersURLs: movieData[verticalIndex].trailer,
                       );
                     },
                     itemCount: movieData.length,
@@ -73,8 +73,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
               BottomRowWidget(
                 listLength:
                     movieData[widget.model.currentVerticalIndex].trailer.length,
-                currentHorizontalIndex: widget.model.currentHorizontalIndex,
-                
+                currentHorizontalIndex: widget.model.currentHorizontalIndex,          
               ),
               const SizedBox(
                 height: 40,
