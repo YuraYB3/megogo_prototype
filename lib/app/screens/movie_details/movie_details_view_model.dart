@@ -6,11 +6,11 @@ import 'package:megogo_prototype/domain/movie/imovie_repository.dart';
 import '../../../domain/movie/imovie.dart';
 
 class MovieDetailsViewModel extends ChangeNotifier {
-  int _currentHorizontalIndex = 0;
-  int get currentHorizontalIndex => _currentHorizontalIndex;
+  int _trailerId = 0;
+  int get trailerId => _trailerId;
 
-  int _currentVerticalIndex;
-  int get currentVerticalIndex => _currentVerticalIndex;
+  int _movieId;
+  int get movieId => _movieId;
 
   final IMovieRepository _movieRepository;
   late Stream<List<IMovie>> _movieStreamList;
@@ -23,7 +23,7 @@ class MovieDetailsViewModel extends ChangeNotifier {
   MovieDetailsViewModel(
       {required IMovieRepository movieRepository, required int movieIndex})
       : _movieRepository = movieRepository,
-        _currentVerticalIndex = movieIndex {
+        _movieId = movieIndex {
     _init();
   }
 
@@ -34,16 +34,16 @@ class MovieDetailsViewModel extends ChangeNotifier {
   }
 
   void onHorizontalScroll(int index) {
-    _currentHorizontalIndex = index;
+    _trailerId = index;
     notifyListeners();
   }
 
   void onVerticalScroll(int index) {
-    _currentVerticalIndex = index;
-    _currentHorizontalIndex = 0;
+    _movieId = index;
+    _trailerId = 0;
     notifyListeners();
     print(index);
-    print(_currentVerticalIndex);
+    print(_movieId);
   }
 
   Future<void> _fetchMoviesStream() async {
@@ -58,17 +58,19 @@ class MovieDetailsViewModel extends ChangeNotifier {
 
   void disposeControllers() {
     _verticalPageController.dispose();
+    _horizontalPageController.dispose();
   }
 
   void _setControllers() {
     _verticalPageController = PageController(
         viewportFraction: 0.9,
         keepPage: false,
-        initialPage: _currentVerticalIndex,
+        initialPage: _movieId,
         );
     _horizontalPageController = PageController(
       viewportFraction: 0.9,
       keepPage: false,
+      
     );
   }
 }

@@ -50,7 +50,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                 onHorizontalScroll: widget.model.onHorizontalScroll,
                 onVerticalScroll: widget.model.onVerticalScroll,
                 verticalPageController: widget.model.verticalPageController,
-                defaultVerticalIndex: widget.model.currentVerticalIndex,
+                defaultVerticalIndex: widget.model.movieId,
               ),
             ],
           );
