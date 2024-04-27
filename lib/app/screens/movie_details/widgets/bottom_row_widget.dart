@@ -4,11 +4,11 @@ import 'package:megogo_prototype/app/theme/colors_palette.dart';
 class BottomRowWidget extends StatelessWidget {
   const BottomRowWidget({
     super.key,
-    required this.currentHorizontalIndex,
+    required this.currentTrailerId,
     required this.listLength,
   });
 
-  final int currentHorizontalIndex;
+  final int currentTrailerId;
   final int listLength;
 
   @override
@@ -26,7 +26,7 @@ class BottomRowWidget extends StatelessWidget {
                 width: 25,
                 decoration: BoxDecoration(
 
-                  color: currentHorizontalIndex == index
+                  color: currentTrailerId == index
                       ? secondaryColor
                       : Colors.grey,
                 ),

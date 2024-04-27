@@ -19,6 +19,7 @@ class MovieDetailsViewModel extends ChangeNotifier {
   PageController get verticalPageController => _verticalPageController;
   PageController get horizontalPageController => _horizontalPageController;
   Stream<List<IMovie>> get movieStreamList => _movieStreamList;
+  final Map<int, int> _trailersHistory = <int, int>{};
 
   MovieDetailsViewModel(
       {required IMovieRepository movieRepository, required int movieIndex})
@@ -35,15 +36,14 @@ class MovieDetailsViewModel extends ChangeNotifier {
 
   void onHorizontalScroll(int index) {
     _trailerId = index;
+    _saveTrailerId();
     notifyListeners();
   }
 
   void onVerticalScroll(int index) {
     _movieId = index;
-    _trailerId = 0;
+    _trailerId = _getTrailerId();
     notifyListeners();
-    print(index);
-    print(_movieId);
   }
 
   Future<void> _fetchMoviesStream() async {
@@ -63,14 +63,21 @@ class MovieDetailsViewModel extends ChangeNotifier {
 
   void _setControllers() {
     _verticalPageController = PageController(
-        viewportFraction: 0.9,
-        keepPage: false,
-        initialPage: _movieId,
-        );
-    _horizontalPageController = PageController(
       viewportFraction: 0.9,
       keepPage: false,
-      
+      initialPage: _movieId,
     );
+    _horizontalPageController = PageController(
+      viewportFraction: 0.9,
+    
+    );
+  }
+
+  int _getTrailerId() {
+    return _trailersHistory[_movieId] ?? 0;
+  }
+
+  void _saveTrailerId() {
+    _trailersHistory[_movieId] = _trailerId;
   }
 }

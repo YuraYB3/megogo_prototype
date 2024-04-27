@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import '../../../../domain/movie/imovie.dart';
 import 'trailers_list_widget.dart';
 
-class VerticalListWidget extends StatelessWidget {
-  const VerticalListWidget({
+class MovieListWidget extends StatelessWidget {
+  const MovieListWidget({
     super.key,
     required this.movieData,
     required this.verticalPageController,
     required this.onHorizontalScroll,
     required this.onVerticalScroll,
     required this.horizontalPageController,
-    required this.defaultVerticalIndex,
+    required this.trailerId,
   });
 
   final List<IMovie> movieData;
@@ -19,7 +19,7 @@ class VerticalListWidget extends StatelessWidget {
   final Function onHorizontalScroll;
   final Function onVerticalScroll;
   final PageController horizontalPageController;
-  final int defaultVerticalIndex;
+  final int trailerId;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +32,10 @@ class VerticalListWidget extends StatelessWidget {
         scrollDirection: Axis.vertical,
         itemBuilder: (context, verticalIndex) {
           return TrailersListWidget(
+            trailerId: trailerId,
             onHorizontalScroll: onHorizontalScroll,
             trailersURLs: movieData[verticalIndex].trailer,
             horizontalPageController: horizontalPageController,
-            currentVerticalIndex: verticalIndex,
-            defaultVerticalIndex: defaultVerticalIndex,
           );
         },
         itemCount: movieData.length,

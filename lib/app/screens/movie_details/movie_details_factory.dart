@@ -3,7 +3,7 @@ import 'package:megogo_prototype/domain/movie/imovie_repository.dart';
 import 'package:megogo_prototype/locator.dart';
 import 'package:provider/provider.dart';
 
-import 'movie_details_view.dart';
+import 'movie_details_screen.dart';
 import 'movie_details_view_model.dart';
 
 class MovieDetailsFactory {
@@ -14,7 +14,7 @@ class MovieDetailsFactory {
           movieIndex: movieId),
       child: Consumer<MovieDetailsViewModel>(
         builder: (context, value, child) {
-          return MovieDetailScreen(
+          return MovieDetailsScreen(
             model: value,
           );
         },

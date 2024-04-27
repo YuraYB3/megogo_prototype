@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:megogo_prototype/app/screens/movie_details/movie_details_view_model.dart';
+import 'package:megogo_prototype/app/screens/movie_details/widgets/bottom_row_widget.dart';
 import 'package:megogo_prototype/app/theme/colors_palette.dart';
 
 import '../../../domain/movie/imovie.dart';
-import 'widgets/vertical_list_widget.dart';
+import 'widgets/movie_list_widget.dart';
 
-class MovieDetailScreen extends StatefulWidget {
+class MovieDetailsScreen extends StatefulWidget {
   final MovieDetailsViewModel model;
-  const MovieDetailScreen({super.key, required this.model});
+  const MovieDetailsScreen({super.key, required this.model});
 
   @override
-  State<MovieDetailScreen> createState() => _MovieDetailScreenState();
+  State<MovieDetailsScreen> createState() => _MovieDetailsScreenState();
 }
 
-class _MovieDetailScreenState extends State<MovieDetailScreen> {
+class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   @override
   void dispose() {
     super.dispose();
@@ -44,14 +45,20 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
           final List<IMovie> movieData = snapshot.data!;
           return Column(
             children: [
-              VerticalListWidget(
+              MovieListWidget(
                 horizontalPageController: widget.model.horizontalPageController,
                 movieData: movieData,
                 onHorizontalScroll: widget.model.onHorizontalScroll,
                 onVerticalScroll: widget.model.onVerticalScroll,
                 verticalPageController: widget.model.verticalPageController,
-                defaultVerticalIndex: widget.model.movieId,
+                trailerId: widget.model.trailerId,
               ),
+              BottomRowWidget(
+                  currentTrailerId: widget.model.trailerId,
+                  listLength: movieData[widget.model.movieId].trailer.length),
+              const SizedBox(
+                height: 20,
+              )
             ],
           );
         },
