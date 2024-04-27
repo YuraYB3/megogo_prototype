@@ -61,10 +61,13 @@ class MovieDetailsViewModel extends ChangeNotifier {
   }
 
   void _setControllers() {
-    _verticalPageController =
-        PageController(viewportFraction: 0.95, keepPage: false);
+    _verticalPageController = PageController(
+        viewportFraction: 0.9,
+        keepPage: false,
+        initialPage: _currentVerticalIndex,
+        );
     _horizontalPageController = PageController(
-      viewportFraction: 0.8,
+      viewportFraction: 0.9,
       keepPage: false,
     );
   }

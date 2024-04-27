@@ -75,8 +75,12 @@ class _TrailersListState extends State<TrailersListWidget> {
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          VideoPlayer(
-                            videoPlayerUtil.controllers[horizontalIndex],
+                          SizedBox(
+                            height: double.infinity,
+                            width: double.infinity,
+                            child: VideoPlayer(
+                              videoPlayerUtil.controllers[horizontalIndex],
+                            ),
                           ),
                           IconButton(
                             onPressed: () async {
@@ -102,9 +106,16 @@ class _TrailersListState extends State<TrailersListWidget> {
                       ),
                     ),
                     widget.currentVerticalIndex == widget.defaultVerticalIndex
-                        ? BottomRowWidget(
-                            currentHorizontalIndex: horizontalIndex,
-                            listLength: widget.trailersURLs.length)
+                        ? Column(
+                            children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              BottomRowWidget(
+                                  currentHorizontalIndex: horizontalIndex,
+                                  listLength: widget.trailersURLs.length),
+                            ],
+                          )
                         : Container()
                   ],
                 ),
