@@ -15,7 +15,9 @@ class MovieDetailsViewModel extends ChangeNotifier {
   final IMovieRepository _movieRepository;
   late Stream<List<IMovie>> _movieStreamList;
   late PageController _verticalPageController;
+  late PageController _horizontalPageController;
   PageController get verticalPageController => _verticalPageController;
+  PageController get horizontalPageController => _horizontalPageController;
   Stream<List<IMovie>> get movieStreamList => _movieStreamList;
 
   MovieDetailsViewModel(
@@ -27,7 +29,7 @@ class MovieDetailsViewModel extends ChangeNotifier {
 
   void _init() async {
     _fetchMoviesStream();
-    _setPageController();
+    _setControllers();
     notifyListeners();
   }
 
@@ -40,6 +42,8 @@ class MovieDetailsViewModel extends ChangeNotifier {
     _currentVerticalIndex = index;
     _currentHorizontalIndex = 0;
     notifyListeners();
+    print(index);
+    print(_currentVerticalIndex);
   }
 
   Future<void> _fetchMoviesStream() async {
@@ -56,8 +60,12 @@ class MovieDetailsViewModel extends ChangeNotifier {
     _verticalPageController.dispose();
   }
 
-  void _setPageController() {
-    _verticalPageController = PageController(
+  void _setControllers() {
+    _verticalPageController =
+        PageController(viewportFraction: 0.95, keepPage: false);
+    _horizontalPageController = PageController(
+      viewportFraction: 0.8,
+      keepPage: false,
     );
   }
 }

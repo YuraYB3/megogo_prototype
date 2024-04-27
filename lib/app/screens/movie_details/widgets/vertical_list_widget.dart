@@ -10,32 +10,36 @@ class VerticalListWidget extends StatelessWidget {
     required this.verticalPageController,
     required this.onHorizontalScroll,
     required this.onVerticalScroll,
+    required this.horizontalPageController,
+    required this.defaultVerticalIndex,
   });
 
   final List<IMovie> movieData;
   final PageController verticalPageController;
   final Function onHorizontalScroll;
   final Function onVerticalScroll;
+  final PageController horizontalPageController;
+  final int defaultVerticalIndex;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: PageView.builder(
-          controller: verticalPageController,
-          onPageChanged: (value) {
-            onVerticalScroll(value);
-          },
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, verticalIndex) {
-            return TrailersListWidget(
-              onHorizontalScroll: onHorizontalScroll,
-              trailersURLs: movieData[verticalIndex].trailer,
-            );
-          },
-          itemCount: movieData.length,
-        ),
+      child: PageView.builder(
+        controller: verticalPageController,
+        onPageChanged: (value) {
+          onVerticalScroll(value);
+        },
+        scrollDirection: Axis.vertical,
+        itemBuilder: (context, verticalIndex) {
+          return TrailersListWidget(
+            onHorizontalScroll: onHorizontalScroll,
+            trailersURLs: movieData[verticalIndex].trailer,
+            horizontalPageController: horizontalPageController,
+            currentVerticalIndex: verticalIndex,
+            defaultVerticalIndex: defaultVerticalIndex,
+          );
+        },
+        itemCount: movieData.length,
       ),
     );
   }

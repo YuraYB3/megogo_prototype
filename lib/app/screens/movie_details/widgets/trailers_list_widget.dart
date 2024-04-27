@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:megogo_prototype/app/screens/movie_details/widgets/bottom_row_widget.dart';
 import 'package:megogo_prototype/app/utils/video_player_util.dart';
 import 'package:video_player/video_player.dart';
 
@@ -9,9 +10,15 @@ class TrailersListWidget extends StatefulWidget {
     super.key,
     required this.trailersURLs,
     required this.onHorizontalScroll,
+    required this.horizontalPageController,
+    required this.currentVerticalIndex,
+    required this.defaultVerticalIndex,
   });
   final List<dynamic> trailersURLs;
   final Function onHorizontalScroll;
+  final PageController horizontalPageController;
+  final int currentVerticalIndex;
+  final int defaultVerticalIndex;
 
   @override
   State<TrailersListWidget> createState() => _TrailersListState();
@@ -27,7 +34,9 @@ class _TrailersListState extends State<TrailersListWidget> {
           listOfURLs: widget.trailersURLs,
         )
         .then(
-          (value) => setState(() {}),
+          (value) => setState(
+            () {},
+          ),
         );
   }
 
@@ -54,39 +63,49 @@ class _TrailersListState extends State<TrailersListWidget> {
               videoPlayerUtil.handlePageChanged(value);
               widget.onHorizontalScroll(value);
             },
+            controller: widget.horizontalPageController,
             itemCount: widget.trailersURLs.length,
             scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
+            itemBuilder: (context, horizontalIndex) {
               return Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Stack(
-                  alignment: Alignment.center,
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
                   children: [
-                    AspectRatio(
-                      aspectRatio:
-                          videoPlayerUtil.controllers[index].value.aspectRatio,
-                      child: VideoPlayer(videoPlayerUtil.controllers[index]),
+                    Expanded(
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          VideoPlayer(
+                            videoPlayerUtil.controllers[horizontalIndex],
+                          ),
+                          IconButton(
+                            onPressed: () async {
+                              videoPlayerUtil
+                                  .onPlayButtonClicked(
+                                    horizontalIndex,
+                                    videoPlayerUtil.isVideoPlaying,
+                                  )
+                                  .then(
+                                    (value) => setState(() {}),
+                                  );
+                            },
+                            icon: !videoPlayerUtil.isVideoPlaying
+                                ? Icon(Icons.play_arrow,
+                                    size: 72, color: secondaryColor)
+                                : Icon(
+                                    Icons.pause,
+                                    size: 72,
+                                    color: Colors.white.withOpacity(0),
+                                  ),
+                          ),
+                        ],
+                      ),
                     ),
-                    IconButton(
-                      onPressed: () async {
-                        videoPlayerUtil
-                            .onPlayButtonClicked(
-                              index,
-                              videoPlayerUtil.isVideoPlaying,
-                            )
-                            .then(
-                              (value) => setState(() {}),
-                            );
-                      },
-                      icon: !videoPlayerUtil.isVideoPlaying
-                          ? Icon(Icons.play_arrow,
-                              size: 72, color: secondaryColor)
-                          : Icon(
-                              Icons.pause,
-                              size: 72,
-                              color: Colors.white.withOpacity(0),
-                            ),
-                    )
+                    widget.currentVerticalIndex == widget.defaultVerticalIndex
+                        ? BottomRowWidget(
+                            currentHorizontalIndex: horizontalIndex,
+                            listLength: widget.trailersURLs.length)
+                        : Container()
                   ],
                 ),
               );
