@@ -12,6 +12,9 @@ class MovieDetailsViewModel extends ChangeNotifier {
   int _movieId;
   int get movieId => _movieId;
 
+  final List<dynamic> _trailersThumbnails = [];
+  List<dynamic> get trailersThumbnails =>_trailersThumbnails;
+
   final IMovieRepository _movieRepository;
   late Stream<List<IMovie>> _movieStreamList;
   late PageController _verticalPageController;
@@ -43,6 +46,7 @@ class MovieDetailsViewModel extends ChangeNotifier {
   void onVerticalScroll(int index) {
     _movieId = index;
     _trailerId = _getTrailerId();
+    _setControllers();
     notifyListeners();
   }
 
@@ -64,13 +68,11 @@ class MovieDetailsViewModel extends ChangeNotifier {
   void _setControllers() {
     _verticalPageController = PageController(
       viewportFraction: 0.9,
-      keepPage: false,
+      keepPage: true,
       initialPage: _movieId,
     );
-    _horizontalPageController = PageController(
-      viewportFraction: 0.9,
-    
-    );
+    _horizontalPageController =
+        PageController(viewportFraction: 0.9, initialPage: _getTrailerId());
   }
 
   int _getTrailerId() {

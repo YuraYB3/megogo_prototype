@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:megogo_prototype/app/screens/movie_details/movie_details_view_model.dart';
-import 'package:megogo_prototype/app/screens/movie_details/widgets/bottom_row_widget.dart';
 import 'package:megogo_prototype/app/theme/colors_palette.dart';
 
 import '../../../domain/movie/imovie.dart';
@@ -52,13 +51,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 onVerticalScroll: widget.model.onVerticalScroll,
                 verticalPageController: widget.model.verticalPageController,
                 trailerId: widget.model.trailerId,
+                movieId: widget.model.movieId,
               ),
-              BottomRowWidget(
-                  currentTrailerId: widget.model.trailerId,
-                  listLength: movieData[widget.model.movieId].trailer.length),
-              const SizedBox(
-                height: 20,
-              )
             ],
           );
         },

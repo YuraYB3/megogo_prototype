@@ -12,6 +12,7 @@ class MovieListWidget extends StatelessWidget {
     required this.onVerticalScroll,
     required this.horizontalPageController,
     required this.trailerId,
+    required this.movieId,
   });
 
   final List<IMovie> movieData;
@@ -20,6 +21,7 @@ class MovieListWidget extends StatelessWidget {
   final Function onVerticalScroll;
   final PageController horizontalPageController;
   final int trailerId;
+  final int movieId;
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +32,14 @@ class MovieListWidget extends StatelessWidget {
           onVerticalScroll(value);
         },
         scrollDirection: Axis.vertical,
-        itemBuilder: (context, verticalIndex) {
+        itemBuilder: (context, verticalId) {
           return TrailersListWidget(
-            trailerId: trailerId,
-            onHorizontalScroll: onHorizontalScroll,
-            trailersURLs: movieData[verticalIndex].trailer,
-            horizontalPageController: horizontalPageController,
-          );
+              trailerId: trailerId,
+              onHorizontalScroll: onHorizontalScroll,
+              trailersURLs: movieData[verticalId].trailer,
+              horizontalPageController: horizontalPageController,
+              verticalId: verticalId,
+              movieId: movieId);
         },
         itemCount: movieData.length,
       ),
