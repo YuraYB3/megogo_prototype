@@ -12,7 +12,6 @@ class TrailersListWidget extends StatefulWidget {
     required this.onHorizontalScroll,
     required this.horizontalPageController,
     required this.trailerId,
-    required this.movieId,
     required this.verticalId,
   });
 
@@ -20,7 +19,6 @@ class TrailersListWidget extends StatefulWidget {
   final Function onHorizontalScroll;
   final PageController horizontalPageController;
   final int trailerId;
-  final int movieId;
   final int verticalId;
 
   @override
@@ -51,6 +49,9 @@ class _TrailersListState extends State<TrailersListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        'Is  video for movie ${widget.verticalId} loading ${videoPlayerUtil.isLoading}');
+
     return videoPlayerUtil.isLoading
         ? Center(
             child: SizedBox(
@@ -73,6 +74,8 @@ class _TrailersListState extends State<TrailersListWidget> {
                   itemCount: widget.trailersURLs.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, horizontalIndex) {
+                    print(
+                        'MovieID ${widget.verticalId} TRAILER $horizontalIndex');
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Stack(
@@ -111,12 +114,6 @@ class _TrailersListState extends State<TrailersListWidget> {
                   },
                 ),
               ),
-              widget.movieId == widget.verticalId
-                  ? BottomRowWidget(
-                      currentTrailerId: widget.trailerId,
-                      listLength: widget.trailersURLs.length,
-                    )
-                  : Container()
             ],
           );
   }

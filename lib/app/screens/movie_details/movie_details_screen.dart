@@ -3,6 +3,7 @@ import 'package:megogo_prototype/app/screens/movie_details/movie_details_view_mo
 import 'package:megogo_prototype/app/theme/colors_palette.dart';
 
 import '../../../domain/movie/imovie.dart';
+import 'widgets/bottom_row_widget.dart';
 import 'widgets/movie_list_widget.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
@@ -42,6 +43,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             );
           }
           final List<IMovie> movieData = snapshot.data!;
+          print('BUILD COLUMN');
           return Column(
             children: [
               MovieListWidget(
@@ -51,8 +53,14 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 onVerticalScroll: widget.model.onVerticalScroll,
                 verticalPageController: widget.model.verticalPageController,
                 trailerId: widget.model.trailerId,
-                movieId: widget.model.movieId,
               ),
+              BottomRowWidget(
+                currentTrailerId: widget.model.trailerId,
+                listLength: movieData[widget.model.movieId].trailer.length,
+              ),
+              const SizedBox(
+                height: 20,
+              )
             ],
           );
         },

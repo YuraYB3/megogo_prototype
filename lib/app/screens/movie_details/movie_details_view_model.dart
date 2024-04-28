@@ -12,9 +12,6 @@ class MovieDetailsViewModel extends ChangeNotifier {
   int _movieId;
   int get movieId => _movieId;
 
-  final List<dynamic> _trailersThumbnails = [];
-  List<dynamic> get trailersThumbnails =>_trailersThumbnails;
-
   final IMovieRepository _movieRepository;
   late Stream<List<IMovie>> _movieStreamList;
   late PageController _verticalPageController;

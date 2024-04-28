@@ -21,11 +21,13 @@ class VideoPlayerUtil extends ChangeNotifier {
         ),
       ),
     );
+
     await Future.wait(
       controllers.map(
         (controller) => controller.initialize(),
       ),
     );
+
     _isLoading = false;
   }
 
