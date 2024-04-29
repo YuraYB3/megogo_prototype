@@ -1,9 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:megogo_prototype/app/screens/movie_details/movie_details_view_model.dart';
 import 'package:megogo_prototype/app/theme/colors_palette.dart';
 
 import '../../../domain/movie/imovie.dart';
-import 'widgets/bottom_row_widget.dart';
 import 'widgets/movie_list_widget.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
@@ -16,9 +17,22 @@ class MovieDetailsScreen extends StatefulWidget {
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   @override
+  void didUpdateWidget(MovieDetailsScreen oldWidget) {
+    log('UPDATED MovieDetailsScreen');
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   void dispose() {
+    log('DISPOSED MovieDetailsScreen');
     super.dispose();
     widget.model.disposeControllers();
+  }
+
+  @override
+  void didChangeDependencies() {
+    log('CHANGED MovieDetailsScreen');
+    super.didChangeDependencies();
   }
 
   @override
@@ -43,20 +57,16 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             );
           }
           final List<IMovie> movieData = snapshot.data!;
-          print('BUILD COLUMN');
+          log('BUILD COLUMN');
           return Column(
             children: [
               MovieListWidget(
-                horizontalPageController: widget.model.horizontalPageController,
                 movieData: movieData,
+                horizontalPageController: widget.model.horizontalPageController,
+                verticalPageController: widget.model.verticalPageController,
                 onHorizontalScroll: widget.model.onHorizontalScroll,
                 onVerticalScroll: widget.model.onVerticalScroll,
-                verticalPageController: widget.model.verticalPageController,
-                trailerId: widget.model.trailerId,
-              ),
-              BottomRowWidget(
                 currentTrailerId: widget.model.trailerId,
-                listLength: movieData[widget.model.movieId].trailer.length,
               ),
               const SizedBox(
                 height: 20,

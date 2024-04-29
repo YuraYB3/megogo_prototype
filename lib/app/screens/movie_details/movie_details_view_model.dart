@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:megogo_prototype/domain/movie/imovie_repository.dart';
 
@@ -19,7 +21,7 @@ class MovieDetailsViewModel extends ChangeNotifier {
   PageController get verticalPageController => _verticalPageController;
   PageController get horizontalPageController => _horizontalPageController;
   Stream<List<IMovie>> get movieStreamList => _movieStreamList;
-  final Map<int, int> _trailersHistory = <int, int>{};
+  final Map<String, int> _trailersHistory = <String, int>{};
 
   MovieDetailsViewModel(
       {required IMovieRepository movieRepository, required int movieIndex})
@@ -34,16 +36,22 @@ class MovieDetailsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onHorizontalScroll(int index) {
+  void onHorizontalScroll(int index, String documentId) {
+    log('-----------');
+    log('Horizontal scroll');
+    log('-----------');
     _trailerId = index;
-    _saveTrailerId();
+    _saveTrailerId(index, documentId);
     notifyListeners();
   }
 
-  void onVerticalScroll(int index) {
+  void onVerticalScroll(int index, String documentId) {
+    log('-----------');
+    log('Vertical scroll');
+    log('-----------');
     _movieId = index;
-    _trailerId = _getTrailerId();
-    _setControllers();
+    _trailerId = _getTrailerId(documentId);
+    _setHorizontalController();
     notifyListeners();
   }
 
@@ -63,20 +71,33 @@ class MovieDetailsViewModel extends ChangeNotifier {
   }
 
   void _setControllers() {
+    log("SET CONTROLLERS");
+    _setVerticalController();
+    _setHorizontalController();
+  }
+
+  void _setVerticalController() {
     _verticalPageController = PageController(
-      viewportFraction: 0.9,
+      viewportFraction: 0.8,
       keepPage: true,
-      initialPage: _movieId,
+      initialPage: movieId,
     );
-    _horizontalPageController =
-        PageController(viewportFraction: 0.9, initialPage: _getTrailerId());
   }
 
-  int _getTrailerId() {
-    return _trailersHistory[_movieId] ?? 0;
+  void _setHorizontalController() {
+    _horizontalPageController = PageController(
+        viewportFraction: 0.9, initialPage: trailerId, keepPage: false);
   }
 
-  void _saveTrailerId() {
-    _trailersHistory[_movieId] = _trailerId;
+  int _getTrailerId(String documentId) {
+    log("GET TRAILER ID FOR MOVIE $documentId");
+    return _trailersHistory[documentId] ?? 0;
+  }
+
+  void _saveTrailerId(int index, String documentId) {
+    log('SAVING ID FOR MOVIE $_movieId WITH TRAILER ID $index');
+    log(_trailersHistory.toString());
+    _trailersHistory[documentId] = index;
+    log(_trailersHistory.toString());
   }
 }

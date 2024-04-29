@@ -37,7 +37,7 @@ class VideoPlayerUtil extends ChangeNotifier {
     }
   }
 
-  void handlePageChanging(int value) {
+  void handlePageChanging() {
     for (int i = 0; i < controllers.length; i++) {
       controllers[i].pause();
     }

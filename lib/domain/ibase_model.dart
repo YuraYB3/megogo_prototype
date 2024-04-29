@@ -3,5 +3,4 @@ abstract interface class IBaseModel {
 
   IBaseModel({required this.documentId});
 
-  Map<String, dynamic> toJson();
 }
