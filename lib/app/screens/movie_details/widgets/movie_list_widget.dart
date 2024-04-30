@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:megogo_prototype/app/common/widgets/cached_image.dart';
 import 'package:megogo_prototype/app/screens/movie_details/widgets/trailers_list_widget.dart';
 
 import '../../../../domain/movie/imovie.dart';
@@ -55,13 +56,26 @@ class _MovieListWidgetState extends State<MovieListWidget> {
         },
         scrollDirection: Axis.vertical,
         childrenDelegate: SliverChildBuilderDelegate((context, verticalIndex) {
-          return TrailersListWidget(
-            movieId: widget.movieId,
-            verticalId: verticalIndex,
-            onHorizontalScroll: widget.onHorizontalScroll,
-            horizontalPageController: widget.horizontalPageController,
-            movie: widget.movieData[verticalIndex],
-          );
+          return widget.movieId == verticalIndex
+              ? TrailersListWidget(
+                  onHorizontalScroll: widget.onHorizontalScroll,
+                  horizontalPageController: widget.horizontalPageController,
+                  movie: widget.movieData[verticalIndex],
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: double.infinity * 0.5,
+                    height: double.infinity * 0.5,
+                    color: Colors.black,
+                    child: CachedImageWidget(
+                      height: double.infinity * 0.5,
+                      width: double.infinity * 0.5,
+                      imageUrl: widget.movieData[verticalIndex].poster,
+                      shape: BoxShape.rectangle,
+                    ),
+                  ),
+                );
         }, childCount: widget.movieData.length),
       ),
     );

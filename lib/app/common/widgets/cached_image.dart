@@ -23,7 +23,7 @@ class CachedImageWidget extends StatelessWidget {
         height: height,
         decoration: BoxDecoration(
           shape: shape,
-          image: DecorationImage(image: imageProvider, fit: BoxFit.contain),
+          image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
         ),
       ),
       placeholder: (context, url) => SizedBox(

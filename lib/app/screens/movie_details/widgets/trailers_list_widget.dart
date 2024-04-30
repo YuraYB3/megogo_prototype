@@ -15,15 +15,11 @@ class TrailersListWidget extends StatefulWidget {
     required this.onHorizontalScroll,
     required this.horizontalPageController,
     required this.movie,
-    required this.movieId,
-    required this.verticalId,
   });
 
   final Function onHorizontalScroll;
   final PageController horizontalPageController;
   final IMovie movie;
-  final int movieId;
-  final int verticalId;
 
   @override
   State<TrailersListWidget> createState() => _TrailersListState();
@@ -103,15 +99,13 @@ class _TrailersListState extends State<TrailersListWidget> {
                                 color: Colors.white.withOpacity(0),
                               ),
                       ),
-                      widget.movieId == widget.verticalId
-                          ? Positioned(
-                              bottom: 20,
-                              child: BottomRowWidget(
-                                  currentTrailerId: index,
-                                  listLength: widget.movie.trailers.length,
-                                  movieName: widget.movie.title),
-                            )
-                          : Container()
+                      Positioned(
+                        bottom: 20,
+                        child: BottomRowWidget(
+                            currentTrailerId: index,
+                            listLength: widget.movie.trailers.length,
+                            movieName: widget.movie.title),
+                      )
                     ],
                   ),
                 );
@@ -126,5 +120,3 @@ class _TrailersListState extends State<TrailersListWidget> {
           );
   }
 }
-
-

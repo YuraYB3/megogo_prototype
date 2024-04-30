@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerUtil extends ChangeNotifier {
-  late List<VideoPlayerController> controllers;
+  late List<VideoPlayerController> _controllers;
+  List<VideoPlayerController> get controllers => _controllers;
+
   bool _isLoading = true;
   bool get isLoading => _isLoading;
 
@@ -13,7 +15,7 @@ class VideoPlayerUtil extends ChangeNotifier {
 
   Future<void> initializeVideoControllers(
       {required List<dynamic> listOfURLs}) async {
-    controllers = List.generate(
+    _controllers = List.generate(
       listOfURLs.length,
       (index) => VideoPlayerController.networkUrl(
         Uri.parse(
@@ -23,7 +25,7 @@ class VideoPlayerUtil extends ChangeNotifier {
     );
 
     await Future.wait(
-      controllers.map(
+      _controllers.map(
         (controller) => controller.initialize(),
       ),
     );
@@ -39,17 +41,17 @@ class VideoPlayerUtil extends ChangeNotifier {
 
   void handlePageChanging() {
     for (int i = 0; i < controllers.length; i++) {
-      controllers[i].pause();
+      _controllers[i].pause();
     }
     _isVideoPlaying = false;
   }
 
   Future<void> onPlayButtonClicked(int index, bool isVideoPlaying) async {
     if (isVideoPlaying) {
-      controllers[index].pause();
+      _controllers[index].pause();
     } else {
-      controllers[index].play();
-      controllers[index].setLooping(true);
+      _controllers[index].play();
+      _controllers[index].setLooping(true);
     }
     _isVideoPlaying = !_isVideoPlaying;
   }
