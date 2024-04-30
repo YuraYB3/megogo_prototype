@@ -13,7 +13,7 @@ class MovieListWidget extends StatefulWidget {
     required this.verticalPageController,
     required this.onHorizontalScroll,
     required this.onVerticalScroll,
-    required this.currentTrailerId,
+    required this.movieId,
   });
 
   final List<IMovie> movieData;
@@ -21,7 +21,7 @@ class MovieListWidget extends StatefulWidget {
   final PageController verticalPageController;
   final Function onHorizontalScroll;
   final Function onVerticalScroll;
-  final int currentTrailerId;
+  final int movieId;
 
   @override
   State<MovieListWidget> createState() => _MovieListWidgetState();
@@ -30,19 +30,16 @@ class MovieListWidget extends StatefulWidget {
 class _MovieListWidgetState extends State<MovieListWidget> {
   @override
   void didUpdateWidget(MovieListWidget oldWidget) {
-    log('UPDATED MovieListWidget');
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   void dispose() {
-    log('DISPOSED MovieListWidget');
     super.dispose();
   }
 
   @override
   void didChangeDependencies() {
-    log('CHANGED MovieListWidget');
     super.didChangeDependencies();
   }
 
@@ -57,12 +54,13 @@ class _MovieListWidgetState extends State<MovieListWidget> {
           widget.onVerticalScroll(value, widget.movieData[value].documentId);
         },
         scrollDirection: Axis.vertical,
-        childrenDelegate: SliverChildBuilderDelegate((context, index) {
+        childrenDelegate: SliverChildBuilderDelegate((context, verticalIndex) {
           return TrailersListWidget(
+            movieId: widget.movieId,
+            verticalId: verticalIndex,
             onHorizontalScroll: widget.onHorizontalScroll,
             horizontalPageController: widget.horizontalPageController,
-            movie: widget.movieData[index],
-            currentTrailerId: widget.currentTrailerId,
+            movie: widget.movieData[verticalIndex],
           );
         }, childCount: widget.movieData.length),
       ),

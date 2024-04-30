@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:megogo_prototype/app/common/widgets/loading_widget.dart';
 import 'package:megogo_prototype/app/screens/movie_details/movie_details_view_model.dart';
 import 'package:megogo_prototype/app/theme/colors_palette.dart';
 
@@ -52,25 +53,20 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             );
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(color: secondaryColor),
-            );
+            return const LoadingWidget();
           }
           final List<IMovie> movieData = snapshot.data!;
           log('BUILD COLUMN');
           return Column(
             children: [
               MovieListWidget(
+                movieId: widget.model.movieId,
                 movieData: movieData,
                 horizontalPageController: widget.model.horizontalPageController,
                 verticalPageController: widget.model.verticalPageController,
                 onHorizontalScroll: widget.model.onHorizontalScroll,
                 onVerticalScroll: widget.model.onVerticalScroll,
-                currentTrailerId: widget.model.trailerId,
               ),
-              const SizedBox(
-                height: 20,
-              )
             ],
           );
         },

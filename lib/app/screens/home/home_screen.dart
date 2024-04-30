@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:megogo_prototype/app/common/widgets/loading_widget.dart';
 import 'package:megogo_prototype/app/screens/home/home_view_model.dart';
 import 'package:megogo_prototype/app/theme/colors_palette.dart';
 import 'package:megogo_prototype/domain/movie/imovie.dart';
@@ -38,17 +39,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       return Center(
                         child: Text(
                           "ERROR${snapshot.error}",
-                          style:  TextStyle(
-                              color: secondaryColor, fontSize: 24),
+                          style: TextStyle(color: secondaryColor, fontSize: 24),
                         ),
                       );
                     }
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return  Center(
-                        child: CircularProgressIndicator(
-                          color: secondaryColor,
-                        ),
-                      );
+                      return const LoadingWidget();
                     }
                     final List<IMovie> movieData = snapshot.data!;
                     return CustomGrid(

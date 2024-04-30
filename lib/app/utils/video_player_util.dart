@@ -11,7 +11,7 @@ class VideoPlayerUtil extends ChangeNotifier {
   bool _isVideoPlaying = false;
   bool get isVideoPlaying => _isVideoPlaying;
 
-  Future<void> initializeControllers(
+  Future<void> initializeVideoControllers(
       {required List<dynamic> listOfURLs}) async {
     controllers = List.generate(
       listOfURLs.length,

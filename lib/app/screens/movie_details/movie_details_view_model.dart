@@ -59,7 +59,7 @@ class MovieDetailsViewModel extends ChangeNotifier {
     try {
       _movieStreamList = _movieRepository.fetchMoviesStream();
     } catch (e) {
-      print(
+      log(
         e.toString(),
       );
     }
@@ -79,14 +79,15 @@ class MovieDetailsViewModel extends ChangeNotifier {
   void _setVerticalController() {
     _verticalPageController = PageController(
       viewportFraction: 0.8,
-      keepPage: true,
       initialPage: movieId,
     );
   }
 
   void _setHorizontalController() {
     _horizontalPageController = PageController(
-        viewportFraction: 0.9, initialPage: trailerId, keepPage: false);
+      viewportFraction: 0.9,
+      initialPage: trailerId,
+    );
   }
 
   int _getTrailerId(String documentId) {
