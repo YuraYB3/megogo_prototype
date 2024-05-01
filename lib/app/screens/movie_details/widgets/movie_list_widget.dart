@@ -30,6 +30,11 @@ class MovieListWidget extends StatefulWidget {
 
 class _MovieListWidgetState extends State<MovieListWidget> {
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   void didUpdateWidget(MovieListWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
   }
@@ -37,11 +42,6 @@ class _MovieListWidgetState extends State<MovieListWidget> {
   @override
   void dispose() {
     super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
   }
 
   @override
@@ -62,19 +62,11 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                   horizontalPageController: widget.horizontalPageController,
                   movie: widget.movieData[verticalIndex],
                 )
-              : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: double.infinity * 0.5,
-                    height: double.infinity * 0.5,
-                    color: Colors.black,
-                    child: CachedImageWidget(
-                      height: double.infinity * 0.5,
-                      width: double.infinity * 0.5,
-                      imageUrl: widget.movieData[verticalIndex].poster,
-                      shape: BoxShape.rectangle,
-                    ),
-                  ),
+              : CachedImageWidget(
+                  height: double.infinity,
+                  width: double.infinity,
+                  imageUrl: widget.movieData[verticalIndex].poster,
+                  shape: BoxShape.rectangle,
                 );
         }, childCount: widget.movieData.length),
       ),

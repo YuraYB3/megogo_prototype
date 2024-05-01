@@ -18,6 +18,12 @@ class MovieDetailsScreen extends StatefulWidget {
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   @override
+  void didChangeDependencies() {
+    log('CHANGED MovieDetailsScreen');
+    super.didChangeDependencies();
+  }
+
+  @override
   void didUpdateWidget(MovieDetailsScreen oldWidget) {
     log('UPDATED MovieDetailsScreen');
     super.didUpdateWidget(oldWidget);
@@ -26,14 +32,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   @override
   void dispose() {
     log('DISPOSED MovieDetailsScreen');
-    super.dispose();
     widget.model.disposeControllers();
-  }
-
-  @override
-  void didChangeDependencies() {
-    log('CHANGED MovieDetailsScreen');
-    super.didChangeDependencies();
+    super.dispose();
   }
 
   @override

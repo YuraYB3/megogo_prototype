@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:megogo_prototype/data/movie/movie_keys.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerUtil extends ChangeNotifier {
@@ -19,7 +20,7 @@ class VideoPlayerUtil extends ChangeNotifier {
       listOfURLs.length,
       (index) => VideoPlayerController.networkUrl(
         Uri.parse(
-          listOfURLs[index],
+          listOfURLs[index][trailerURL],
         ),
       ),
     );

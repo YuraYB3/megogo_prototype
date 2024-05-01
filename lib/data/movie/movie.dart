@@ -11,19 +11,19 @@ class Movie implements IMovie {
   String title;
 
   @override
-  List<dynamic> trailers;
+  List<dynamic> trailer;
 
   Movie(
       {required this.documentId,
       required this.poster,
       required this.title,
-      required this.trailers});
+      required this.trailer});
 
   factory Movie.fromJson(Map<String, dynamic> json) {
     return Movie(
         documentId: json['documentId'],
         poster: json['poster'],
         title: json['title'],
-        trailers: json['trailer']);
+        trailer: json['trailer']);
   }
 }
