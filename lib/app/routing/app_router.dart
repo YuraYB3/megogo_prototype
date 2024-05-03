@@ -27,6 +27,8 @@ class AppRouter {
   }
 
   Widget _buildMovieDetailsSettings(RouteSettings settings) {
-    return MovieDetailsFactory.build(movieId: settings.arguments as int);
+    Map<dynamic, dynamic> map = settings.arguments as Map;
+    return MovieDetailsFactory.build(
+        movieId: map['movieId'], movieList: map['movieList']);
   }
 }

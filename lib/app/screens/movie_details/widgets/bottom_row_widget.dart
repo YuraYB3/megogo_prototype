@@ -46,8 +46,8 @@ class _BottomRowWidgetState extends State<BottomRowWidget> {
                 log('$index');
               },
               child: CachedImageWidget(
-                height: widget.currentTrailerId == index ? 70 : 60,
-                width: widget.currentTrailerId == index ? 35 : 30,
+                height: widget.currentTrailerId == index ? 70 : 50,
+                width: widget.currentTrailerId == index ? 35 : 25,
                 shape: BoxShape.rectangle,
                 imageUrl: widget.trailer[index][trailerThumbnail],
               ),

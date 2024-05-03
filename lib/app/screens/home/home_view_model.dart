@@ -20,8 +20,9 @@ class HomeViewModel extends ChangeNotifier {
     _fetchMoviesStream();
   }
 
-  void onPosterClicked(int movieId) {
-    _navigationUtil.navigateTo(routeDetails, data: movieId);
+  void onPosterClicked(int movieId, List<IMovie> movieData) {
+    _navigationUtil.navigateTo(routeDetails,
+        data: ({'movieId': movieId, 'movieList': movieData}));
   }
 
   Future<void> _fetchMoviesStream() async {

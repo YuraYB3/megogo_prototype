@@ -11,7 +11,7 @@ class CustomGrid extends StatelessWidget {
   });
 
   final List<IMovie> movieData;
-  final Function(int movieId) onCellClicked;
+  final Function onCellClicked;
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -27,7 +27,7 @@ class CustomGrid extends StatelessWidget {
         return PosterCell(
           posterUrl: movie.poster,
           onCellClicked: () {
-            onCellClicked(index);
+            onCellClicked(index, movieData);
           },
           posterHeight: MediaQuery.of(context).size.height * 0.25,
           posterWidth: MediaQuery.of(context).size.width * 0.3,

@@ -7,12 +7,13 @@ class CachedImageWidget extends StatelessWidget {
   final double width;
   final BoxShape shape;
 
-  const CachedImageWidget(
-      {super.key,
-      required this.imageUrl,
-      required this.height,
-      required this.shape,
-      required this.width});
+  const CachedImageWidget({
+    super.key,
+    required this.imageUrl,
+    required this.height,
+    required this.width,
+    required this.shape,
+  });
 
   @override
   Widget build(BuildContext context) {
