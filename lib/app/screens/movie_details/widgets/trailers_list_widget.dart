@@ -27,7 +27,6 @@ class TrailersListWidget extends StatefulWidget {
 }
 
 class _TrailersListState extends State<TrailersListWidget> {
-  late int trailerId;
   @override
   void initState() {
     log('INIT TRAILER LIST ${widget.movie.title}');
@@ -37,7 +36,7 @@ class _TrailersListState extends State<TrailersListWidget> {
   @override
   void didChangeDependencies() {
     log('CHANGE TRAILER LIST ${widget.movie.title}');
-    trailerId = widget.getTrailerId(widget.movie.documentId);
+
     super.didChangeDependencies();
   }
 
@@ -49,6 +48,7 @@ class _TrailersListState extends State<TrailersListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    int trailerId = widget.getTrailerId(widget.movie.documentId);
     return PageView.custom(
       dragStartBehavior: DragStartBehavior.down,
       controller: PageController(viewportFraction: 0.8, initialPage: trailerId),

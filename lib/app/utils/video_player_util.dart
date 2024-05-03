@@ -41,4 +41,12 @@ class VideoPlayerUtil extends ChangeNotifier implements IVideoPlayerUtil {
     _videoController.pause();
     _isVideoPlaying = false;
   }
+
+  Future<void> onPlayButtonClicked() async {
+    if (isVideoPlaying) {
+      pauseVideo();
+    } else {
+      playVideo();
+    }
+  }
 }
