@@ -7,7 +7,7 @@ import 'package:megogo_prototype/app/screens/movie_details/widgets/video_widget.
 import 'package:megogo_prototype/data/movie/movie_keys.dart';
 import 'package:megogo_prototype/domain/movie/imovie.dart';
 
-import 'bottom_row_widget.dart';
+import 'bottom_thumbnails_widget.dart';
 
 class TrailersListWidget extends StatefulWidget {
   const TrailersListWidget(
@@ -49,9 +49,11 @@ class _TrailersListState extends State<TrailersListWidget> {
   @override
   Widget build(BuildContext context) {
     int trailerId = widget.getTrailerId(widget.movie.documentId);
+    PageController pageController =
+        PageController(viewportFraction: 0.8, initialPage: trailerId);
     return PageView.custom(
       dragStartBehavior: DragStartBehavior.down,
-      controller: PageController(viewportFraction: 0.8, initialPage: trailerId),
+      controller: pageController,
       childrenDelegate: SliverChildBuilderDelegate(
         (context, index) {
           return Column(
@@ -67,10 +69,12 @@ class _TrailersListState extends State<TrailersListWidget> {
               widget.isMovieIdAndVerticalIndexAreEqual
                   ? Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: BottomRowWidget(
-                        currentTrailerId: index,
-                        trailer: widget.movie.trailer,
-                      ),
+                      child: BottomThumbnailsWidget(
+                          pageController: pageController,
+                          onThumbnailClicked: widget.onHorizontalScroll,
+                          currentTrailerId: index,
+                          trailer: widget.movie.trailer,
+                          documentId: widget.movie.documentId),
                     )
                   : Container()
             ],
@@ -80,9 +84,11 @@ class _TrailersListState extends State<TrailersListWidget> {
       ),
       onPageChanged: (value) {
         widget.onHorizontalScroll(value, widget.movie.documentId);
-        setState(() {
-          trailerId = value;
-        });
+        setState(
+          () {
+            trailerId = value;
+          },
+        );
       },
       scrollDirection: Axis.horizontal,
     );

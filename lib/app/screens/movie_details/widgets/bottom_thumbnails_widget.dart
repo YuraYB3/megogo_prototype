@@ -1,30 +1,33 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:megogo_prototype/app/common/widgets/cached_image.dart';
 import 'package:megogo_prototype/data/movie/movie_keys.dart';
 
-class BottomRowWidget extends StatefulWidget {
-  const BottomRowWidget({
-    super.key,
-    required this.currentTrailerId,
-    required this.trailer,
-  });
+class BottomThumbnailsWidget extends StatefulWidget {
+  const BottomThumbnailsWidget(
+      {super.key,
+      required this.currentTrailerId,
+      required this.trailer,
+      required this.onThumbnailClicked,
+      required this.documentId,
+      required this.pageController});
 
   final int currentTrailerId;
   final List<dynamic> trailer;
+  final Function onThumbnailClicked;
+  final String documentId;
+  final PageController pageController;
   @override
-  State<BottomRowWidget> createState() => _BottomRowWidgetState();
+  State<BottomThumbnailsWidget> createState() => _BottomThumbnailsWidgetState();
 }
 
-class _BottomRowWidgetState extends State<BottomRowWidget> {
+class _BottomThumbnailsWidgetState extends State<BottomThumbnailsWidget> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
   }
 
   @override
-  void didUpdateWidget(BottomRowWidget oldWidget) {
+  void didUpdateWidget(BottomThumbnailsWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
   }
 
@@ -43,7 +46,12 @@ class _BottomRowWidgetState extends State<BottomRowWidget> {
             padding: const EdgeInsets.only(right: 10),
             child: GestureDetector(
               onTap: () {
-                log('$index');
+                widget.pageController.animateToPage(
+                  index,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.ease,
+                );
+                widget.onThumbnailClicked(index, widget.documentId);
               },
               child: CachedImageWidget(
                 height: widget.currentTrailerId == index ? 70 : 50,
