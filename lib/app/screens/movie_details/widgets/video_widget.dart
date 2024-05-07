@@ -32,7 +32,7 @@ class _VideoWidgetState extends State<VideoWidget> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    var controller = widget.videoService.setAndGetController(widget.videoURL);
+    VideoPlayerController? controller = widget.videoService.setAndGetController(widget.videoURL);
     videoPlayerUtil = VideoPlayerHandler(controller: controller);
     videoPlayerUtil
         .initializeVideoController(videoURL: widget.videoURL)

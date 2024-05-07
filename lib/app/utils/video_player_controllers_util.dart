@@ -7,7 +7,7 @@ import 'ivideo_player_controllers__util.dart';
 class VideoPlayerControllersUtil implements IVideoPlayerControllersUtil {
   List<VideoPlayerController> _videoControllers = [];
 
-  final int _maxQuantityOfControllers = 6;
+  final int _maxQuantityOfControllers = 8;
 
   VideoPlayerControllersUtil() {
     _initControllers();
@@ -26,16 +26,24 @@ class VideoPlayerControllersUtil implements IVideoPlayerControllersUtil {
   @override
   VideoPlayerController setAndGetController(String videoURL) {
     log("SET");
-    VideoPlayerController controller =
-        _videoControllers.firstWhere((element) => element.dataSource.isEmpty);
-    controller = VideoPlayerController.networkUrl(Uri.parse(videoURL));
-    return controller;
+    int emptyControllerIndex = _videoControllers.indexWhere(
+      (element) => element.dataSource.isEmpty,
+    );
+    log("INDEX $emptyControllerIndex");
+    VideoPlayerController videoPlayerController =
+        _videoControllers[emptyControllerIndex];
+    videoPlayerController =
+        VideoPlayerController.networkUrl(Uri.parse(videoURL));
+    _videoControllers[emptyControllerIndex] = videoPlayerController;
+    return videoPlayerController;
   }
 
   @override
   void clearController({required VideoPlayerController controller}) {
     log('CLEAR CONTROLLER');
-    _videoControllers.remove(controller);
+    _videoControllers[
+            _videoControllers.indexWhere((element) => element == controller)] =
+        VideoPlayerController.networkUrl(Uri.parse(''));
   }
 
   @override
