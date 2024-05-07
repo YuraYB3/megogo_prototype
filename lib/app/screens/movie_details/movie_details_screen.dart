@@ -43,6 +43,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
         onHorizontalScroll: widget.model.onHorizontalScroll,
         onVerticalScroll: widget.model.onVerticalScroll,
         getTrailerId: widget.model.getTrailerId,
+        videoService: widget.model.videoService,
       ),
     );
   }

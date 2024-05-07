@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:megogo_prototype/app/utils/ivideo_player_controllers__util.dart';
 
 import '../../../domain/movie/imovie.dart';
 
@@ -13,12 +14,16 @@ class MovieDetailsViewModel extends ChangeNotifier {
   List<IMovie> get movieList => _movieList;
   final Map<String, int> _trailersHistory = <String, int>{};
 
+  final IVideoPlayerControllersUtil _videoService;
+  IVideoPlayerControllersUtil get videoService => _videoService;
+
   MovieDetailsViewModel(
       {required int movieIndex,
       required List<IMovie> movieList,
-      })
+      required IVideoPlayerControllersUtil videoService})
       : _movieId = movieIndex,
-        _movieList = movieList;
+        _movieList = movieList,
+        _videoService = videoService;
 
   void onHorizontalScroll(int index, String documentId) {
     log('-----------');

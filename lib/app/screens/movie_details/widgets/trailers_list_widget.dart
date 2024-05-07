@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:megogo_prototype/app/screens/movie_details/widgets/video_widget.dart';
+import 'package:megogo_prototype/app/utils/ivideo_player_controllers__util.dart';
 import 'package:megogo_prototype/data/movie/movie_keys.dart';
 import 'package:megogo_prototype/domain/movie/imovie.dart';
 
@@ -15,11 +16,13 @@ class TrailersListWidget extends StatefulWidget {
       required this.onHorizontalScroll,
       required this.movie,
       required this.getTrailerId,
-      required this.isMovieIdAndVerticalIndexAreEqual});
+      required this.isMovieIdAndVerticalIndexAreEqual,
+      required this.videoService});
 
   final Function onHorizontalScroll;
   final IMovie movie;
   final Function getTrailerId;
+  final IVideoPlayerControllersUtil videoService;
   final bool isMovieIdAndVerticalIndexAreEqual;
 
   @override
@@ -36,7 +39,6 @@ class _TrailersListState extends State<TrailersListWidget> {
   @override
   void didChangeDependencies() {
     log('CHANGE TRAILER LIST ${widget.movie.title}');
-
     super.didChangeDependencies();
   }
 
@@ -44,6 +46,12 @@ class _TrailersListState extends State<TrailersListWidget> {
   void didUpdateWidget(TrailersListWidget oldWidget) {
     log('UPDATE TRAILER LIST ${widget.movie.title}');
     super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    log('DISPOSE TRAILER LIST ${widget.movie.title}');
+    super.dispose();
   }
 
   @override
@@ -60,6 +68,7 @@ class _TrailersListState extends State<TrailersListWidget> {
             children: [
               Expanded(
                 child: VideoWidget(
+                  videoService: widget.videoService,
                   videoURL: widget.movie.trailer[index][trailerURL],
                   isMovieIdAndVerticalIndexAreEqual:
                       widget.isMovieIdAndVerticalIndexAreEqual,
@@ -92,11 +101,5 @@ class _TrailersListState extends State<TrailersListWidget> {
       },
       scrollDirection: Axis.horizontal,
     );
-  }
-
-  @override
-  void dispose() {
-    log('DISPOSE TRAILER LIST ${widget.movie.title}');
-    super.dispose();
   }
 }

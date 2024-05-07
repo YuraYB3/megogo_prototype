@@ -1,9 +1,9 @@
 import 'package:get_it/get_it.dart';
-import 'package:megogo_prototype/app/utils/video_player_util.dart';
+import 'package:megogo_prototype/app/utils/ivideo_player_controllers__util.dart';
+import 'package:megogo_prototype/app/utils/video_player_controllers_util.dart';
 
 import 'app/routing/navigation_util.dart';
 import 'app/services/network/firebase_service.dart';
-import 'app/utils/ivideo_player_util.dart';
 import 'data/movie/movie_repository.dart';
 import 'domain/movie/imovie_repository.dart';
 import 'domain/navigation/inavigation_util.dart';
@@ -15,6 +15,7 @@ void init() {
   initNetworkService();
   initNavigation();
   initRepos();
+  initVideoService();
 }
 
 void initNetworkService() {
@@ -37,8 +38,6 @@ void initRepos() {
   );
 }
 
-void initVideoPlayerUtil() {
-  locator.registerFactory<IVideoPlayerUtil>(
-    () => VideoPlayerUtil(),
-  );
+void initVideoService() {
+  locator.registerFactory<IVideoPlayerControllersUtil>(() => VideoPlayerControllersUtil());
 }

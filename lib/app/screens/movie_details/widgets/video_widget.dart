@@ -1,59 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:megogo_prototype/app/common/widgets/loading_widget.dart';
-import 'package:megogo_prototype/app/utils/video_player_util.dart';
+import 'package:megogo_prototype/app/utils/ivideo_player_controllers__util.dart';
+import 'package:megogo_prototype/app/utils/video_player_handler.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../theme/colors_palette.dart';
 
 class VideoWidget extends StatefulWidget {
-  const VideoWidget({
-    super.key,
-    required this.videoURL,
-    required this.isMovieIdAndVerticalIndexAreEqual,
-    required this.isTrailerIdAndHorizontalIndexAreEqual,
-  });
+  const VideoWidget(
+      {super.key,
+      required this.videoURL,
+      required this.isMovieIdAndVerticalIndexAreEqual,
+      required this.isTrailerIdAndHorizontalIndexAreEqual,
+      required this.videoService});
   final String videoURL;
   final bool isMovieIdAndVerticalIndexAreEqual;
   final bool isTrailerIdAndHorizontalIndexAreEqual;
+  final IVideoPlayerControllersUtil videoService;
 
   @override
   State<VideoWidget> createState() => _VideoWidgetState();
 }
 
 class _VideoWidgetState extends State<VideoWidget> {
-  VideoPlayerUtil videoPlayerUtil = VideoPlayerUtil();
+  late VideoPlayerHandler videoPlayerUtil;
   @override
   void initState() {
-    videoPlayerUtil
-        .initializeVideoController(videoURL: widget.videoURL)
-        .then((_) {
-      if (widget.isMovieIdAndVerticalIndexAreEqual &&
-          widget.isTrailerIdAndHorizontalIndexAreEqual) {
-        videoPlayerUtil.playVideo();
-      } else {}
-      setState(
-        () {},
-      );
-    });
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    var controller = widget.videoService.setAndGetController(widget.videoURL);
+    videoPlayerUtil = VideoPlayerHandler(controller: controller);
+    videoPlayerUtil
+        .initializeVideoController(videoURL: widget.videoURL)
+        .then((_) {
+      if (widget.isMovieIdAndVerticalIndexAreEqual &&
+          widget.isTrailerIdAndHorizontalIndexAreEqual) {
+        videoPlayerUtil.playVideo();
+        setState(() {});
+      } else {}
+    });
   }
 
   @override
   void didUpdateWidget(VideoWidget oldWidget) {
-    if (widget.isMovieIdAndVerticalIndexAreEqual &&
-        widget.isTrailerIdAndHorizontalIndexAreEqual) {
-      videoPlayerUtil.playVideo();
-    } else {
-      videoPlayerUtil.pauseVideo();
-    }
-    setState(() {});
-
     super.didUpdateWidget(oldWidget);
+    setState(() {
+      if (widget.isMovieIdAndVerticalIndexAreEqual &&
+          widget.isTrailerIdAndHorizontalIndexAreEqual) {
+        videoPlayerUtil.playVideo();
+      } else {
+        videoPlayerUtil.pauseVideo();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    widget.videoService
+        .clearController(controller: videoPlayerUtil.videoController);
+    videoPlayerUtil.videoController.dispose();
+    super.dispose();
   }
 
   @override
@@ -70,12 +80,9 @@ class _VideoWidgetState extends State<VideoWidget> {
                 ),
                 IconButton(
                   onPressed: () async {
-                    videoPlayerUtil
-                        .onPlayButtonClicked(
-                        )
-                        .then(
-                          (value) => setState(() {}),
-                        );
+                    setState(() {
+                      videoPlayerUtil.onPlayButtonClicked();
+                    });
                   },
                   icon: !videoPlayerUtil.isVideoPlaying
                       ? Icon(Icons.play_arrow, size: 72, color: secondaryColor)
@@ -88,11 +95,5 @@ class _VideoWidgetState extends State<VideoWidget> {
               ],
             ),
           );
-  }
-
-  @override
-  void dispose() {
-    videoPlayerUtil.videoController.dispose();
-    super.dispose();
   }
 }
