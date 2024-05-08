@@ -3,7 +3,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:megogo_prototype/app/services/video_player_controllers/ivideo_player_controllers__util.dart';
+import 'package:megogo_prototype/app/services/video_player_controllers/ivideo_player_controllers__service.dart';
 
 import '../../../domain/movie/imovie.dart';
 

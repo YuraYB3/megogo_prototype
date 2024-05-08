@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:megogo_prototype/app/common/widgets/cached_image.dart';
 import 'package:megogo_prototype/app/screens/movie_details/widgets/video_widget.dart';
-import 'package:megogo_prototype/app/services/video_player_controllers/ivideo_player_controllers__util.dart';
+import 'package:megogo_prototype/app/services/video_player_controllers/ivideo_player_controllers__service.dart';
 import 'package:megogo_prototype/data/movie/movie_keys.dart';
 import 'package:megogo_prototype/domain/movie/imovie.dart';
 

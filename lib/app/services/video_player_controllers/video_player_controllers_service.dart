@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:video_player/video_player.dart';
 
-import 'ivideo_player_controllers__util.dart';
+import 'ivideo_player_controllers__service.dart';
 
 class VideoPlayerControllersService implements IVideoPlayerControllersService {
   List<VideoPlayerController> _videoControllers = [];
@@ -59,10 +59,4 @@ class VideoPlayerControllersService implements IVideoPlayerControllersService {
     return VideoPlayerController.networkUrl(Uri.parse(videoURL));
   }
 
-  @override
-  void disposeControllers() {
-    for (var element in _videoControllers) {
-      element.dispose();
-    }
-  }
 }
