@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:megogo_prototype/app/screens/movie_details/widgets/trailers_list_widget.dart';
-import 'package:megogo_prototype/app/utils/ivideo_player_controllers__util.dart';
+import 'package:megogo_prototype/app/services/video_player_controllers/ivideo_player_controllers__util.dart';
 
 import '../../../../domain/movie/imovie.dart';
 
@@ -21,7 +21,7 @@ class MovieListWidget extends StatefulWidget {
   final Function onVerticalScroll;
   final int movieId;
   final Function getTrailerId;
-  final IVideoPlayerControllersUtil videoService;
+  final IVideoPlayerControllersService videoService;
 
   @override
   State<MovieListWidget> createState() => _MovieListWidgetState();
@@ -48,7 +48,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
 
   @override
   void dispose() {
-    widget.videoService.disposeControllers();
+  //  widget.videoService.disposeControllers();
     log('DISPOSE MOVIE LIST');
     super.dispose();
   }

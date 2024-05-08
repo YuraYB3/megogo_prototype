@@ -3,8 +3,9 @@ import 'dart:developer';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:megogo_prototype/app/common/widgets/cached_image.dart';
 import 'package:megogo_prototype/app/screens/movie_details/widgets/video_widget.dart';
-import 'package:megogo_prototype/app/utils/ivideo_player_controllers__util.dart';
+import 'package:megogo_prototype/app/services/video_player_controllers/ivideo_player_controllers__util.dart';
 import 'package:megogo_prototype/data/movie/movie_keys.dart';
 import 'package:megogo_prototype/domain/movie/imovie.dart';
 
@@ -22,7 +23,7 @@ class TrailersListWidget extends StatefulWidget {
   final Function onHorizontalScroll;
   final IMovie movie;
   final Function getTrailerId;
-  final IVideoPlayerControllersUtil videoService;
+  final IVideoPlayerControllersService videoService;
   final bool isMovieIdAndVerticalIndexAreEqual;
 
   @override
@@ -67,13 +68,21 @@ class _TrailersListState extends State<TrailersListWidget> {
           return Column(
             children: [
               Expanded(
-                child: VideoWidget(
-                  videoService: widget.videoService,
-                  videoURL: widget.movie.trailer[index][trailerURL],
-                  isMovieIdAndVerticalIndexAreEqual:
-                      widget.isMovieIdAndVerticalIndexAreEqual,
-                  isTrailerIdAndHorizontalIndexAreEqual: index == trailerId,
-                ),
+                child: widget.isMovieIdAndVerticalIndexAreEqual ||
+                        index == trailerId
+                    ? VideoWidget(
+                        videoService: widget.videoService,
+                        videoURL: widget.movie.trailer[index][trailerURL],
+                        isMovieIdAndVerticalIndexAreEqual:
+                            widget.isMovieIdAndVerticalIndexAreEqual,
+                        isTrailerIdAndHorizontalIndexAreEqual:
+                            index == trailerId,
+                      )
+                    : CachedImageWidget(
+                        imageUrl: widget.movie.trailer[index][trailerThumbnail],
+                        height: double.infinity,
+                        width: double.infinity,
+                        shape: BoxShape.rectangle),
               ),
               widget.isMovieIdAndVerticalIndexAreEqual
                   ? Padding(
