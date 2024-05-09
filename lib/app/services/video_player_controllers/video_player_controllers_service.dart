@@ -26,25 +26,28 @@ class VideoPlayerControllersService implements IVideoPlayerControllersService {
   @override
   VideoPlayerController getController(String videoURL) {
     log("GET");
-    int emptyIndex = _videoControllers.indexWhere(
-      (element) => element.dataSource.isEmpty,
+    int emptyIndex = _checkIndex(
+      _videoControllers.indexWhere(
+        (element) => element.dataSource.isEmpty,
+      ),
     );
-    emptyIndex = _checkIndex(emptyIndex);
     log("$emptyIndex GET");
     _videoControllers[emptyIndex] = _prepareVideoController(videoURL);
-    _replaceControllerInVideoControllersList(emptyIndex, _videoControllers[emptyIndex]);
+    _replaceControllerInVideoControllersList(
+        emptyIndex, _videoControllers[emptyIndex]);
     return _videoControllers[emptyIndex];
   }
 
   @override
   void clearController({required VideoPlayerController controller}) {
     log('CLEAR CONTROLLER');
-    int index =
-        _videoControllers.indexWhere((element) => element == controller);
-    index = _checkIndex(index);
+    int index = _checkIndex(
+        _videoControllers.indexWhere((element) => element == controller));
     log('CLEAR $index');
     _replaceControllerInVideoControllersList(
-        index, _prepareVideoController(''));
+      index,
+      _prepareVideoController(''),
+    );
     controller.dispose();
   }
 
@@ -58,5 +61,4 @@ class VideoPlayerControllersService implements IVideoPlayerControllersService {
   VideoPlayerController _prepareVideoController(String videoURL) {
     return VideoPlayerController.networkUrl(Uri.parse(videoURL));
   }
-
 }

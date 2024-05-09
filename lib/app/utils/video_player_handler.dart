@@ -12,8 +12,8 @@ class VideoPlayerHandler extends ChangeNotifier {
   VideoPlayerState get videoPlayerState => _videoPlayerState;
 
   Future<void> initializeVideoController(
-      {required VideoPlayerController controller}) async {
-    _videoController = controller;
+      {required VideoPlayerController videoPlayerController}) async {
+    _videoController = videoPlayerController;
     await _videoController.initialize();
   }
 

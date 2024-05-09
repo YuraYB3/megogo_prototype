@@ -28,7 +28,8 @@ class _VideoWidgetState extends State<VideoWidget> {
   @override
   void initState() {
     videoPlayerHandler.initializeVideoController(
-        controller: widget.videoService.getController(widget.videoURL));
+        videoPlayerController:
+            widget.videoService.getController(widget.videoURL));
     super.initState();
   }
 
@@ -106,7 +107,7 @@ class _VideoWidgetState extends State<VideoWidget> {
           ),
         );
       default:
-        return Text('data');
+        return const Text('data');
     }
   }
 }
