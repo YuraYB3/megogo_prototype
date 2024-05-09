@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-enum VideoPlayerState { loading, playing, pause }
+enum VideoPlayerState { loading, readyToWork }
+
+enum VideoState { playing, onPause }
 
 class VideoPlayerHandler extends ChangeNotifier {
   late VideoPlayerController _videoController;
@@ -11,32 +13,35 @@ class VideoPlayerHandler extends ChangeNotifier {
   VideoPlayerState _videoPlayerState = VideoPlayerState.loading;
   VideoPlayerState get videoPlayerState => _videoPlayerState;
 
+  VideoState _videoState = VideoState.onPause;
+  VideoState get videoState => _videoState;
+
   Future<void> initializeVideoController(
       {required VideoPlayerController videoPlayerController}) async {
     _videoController = videoPlayerController;
     await _videoController.initialize();
+    _updateVideoPlayerState(VideoPlayerState.readyToWork);
   }
 
   void playVideo() {
     _videoController.play();
     _videoController.setLooping(true);
-    _updateVideoPlayerState(VideoPlayerState.playing);
+    _updateVideoState(VideoState.playing);
   }
 
   void pauseVideo() {
     _videoController.pause();
-    _updateVideoPlayerState(VideoPlayerState.pause);
+    _updateVideoState(VideoState.onPause);
   }
 
   void onPlayButtonClicked() {
-    switch (_videoPlayerState) {
-      case VideoPlayerState.pause:
+    switch (_videoState) {
+      case VideoState.onPause:
         playVideo();
         break;
-      case VideoPlayerState.playing:
+      case VideoState.playing:
         pauseVideo();
         break;
-      case VideoPlayerState.loading:
       default:
         break;
     }
@@ -44,6 +49,11 @@ class VideoPlayerHandler extends ChangeNotifier {
 
   void _updateVideoPlayerState(VideoPlayerState videoPlayerState) {
     _videoPlayerState = videoPlayerState;
+    notifyListeners();
+  }
+
+  void _updateVideoState(VideoState videoState) {
+    _videoState = videoState;
     notifyListeners();
   }
 }
