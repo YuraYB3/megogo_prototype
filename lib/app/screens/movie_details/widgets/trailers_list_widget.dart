@@ -6,8 +6,10 @@ import 'package:flutter/widgets.dart';
 import 'package:megogo_prototype/app/common/widgets/cached_image.dart';
 import 'package:megogo_prototype/app/screens/movie_details/widgets/video_widget.dart';
 import 'package:megogo_prototype/app/services/video_player_controllers/ivideo_player_controllers__service.dart';
+import 'package:megogo_prototype/app/utils/video_player_handler.dart';
 import 'package:megogo_prototype/data/movie/movie_keys.dart';
 import 'package:megogo_prototype/domain/movie/imovie.dart';
+import 'package:provider/provider.dart';
 
 import 'bottom_thumbnails_widget.dart';
 
@@ -70,13 +72,21 @@ class _TrailersListState extends State<TrailersListWidget> {
               Expanded(
                 child: widget.isMovieIdAndVerticalIndexAreEqual ||
                         index == trailerId
-                    ? VideoWidget(
-                        videoService: widget.videoService,
-                        videoURL: widget.movie.trailer[index][trailerURL],
-                        isMovieIdAndVerticalIndexAreEqual:
-                            widget.isMovieIdAndVerticalIndexAreEqual,
-                        isTrailerIdAndHorizontalIndexAreEqual:
-                            index == trailerId,
+                    ? ChangeNotifierProvider(
+                        create: (context) => VideoPlayerHandler(),
+                        child: Consumer<VideoPlayerHandler>(
+                          builder: (context, value, child) {
+                            return VideoWidget(
+                              videoService: widget.videoService,
+                              videoURL: widget.movie.trailer[index][trailerURL],
+                              isMovieIdAndVerticalIndexAreEqual:
+                                  widget.isMovieIdAndVerticalIndexAreEqual,
+                              isTrailerIdAndHorizontalIndexAreEqual:
+                                  index == trailerId,
+                              videoPlayerHandler: value,
+                            );
+                          },
+                        ),
                       )
                     : CachedImageWidget(
                         imageUrl: widget.movie.trailer[index][trailerThumbnail],

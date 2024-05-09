@@ -18,19 +18,17 @@ class VideoPlayerHandler extends ChangeNotifier {
   }
 
   void playVideo() {
-    _videoPlayerState = VideoPlayerState.playing;
-    notifyListeners();
     _videoController.play();
     _videoController.setLooping(true);
+    _updateVideoPlayerState(VideoPlayerState.playing);
   }
 
   void pauseVideo() {
-    _videoPlayerState = VideoPlayerState.pause;
-    notifyListeners();
     _videoController.pause();
+    _updateVideoPlayerState(VideoPlayerState.pause);
   }
 
-  Future<void> onPlayButtonClicked() async {
+  void onPlayButtonClicked() {
     switch (_videoPlayerState) {
       case VideoPlayerState.pause:
         playVideo();
@@ -42,5 +40,10 @@ class VideoPlayerHandler extends ChangeNotifier {
       default:
         break;
     }
+  }
+
+  void _updateVideoPlayerState(VideoPlayerState videoPlayerState) {
+    _videoPlayerState = videoPlayerState;
+    notifyListeners();
   }
 }

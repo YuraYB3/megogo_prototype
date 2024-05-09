@@ -17,7 +17,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        Provider.value(value: navigationUtil), 
+        Provider.value(value: navigationUtil),
       ],
       child: App(
         appRouter: AppRouter(),

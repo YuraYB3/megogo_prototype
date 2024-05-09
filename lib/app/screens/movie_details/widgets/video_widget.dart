@@ -13,57 +13,72 @@ class VideoWidget extends StatefulWidget {
     required this.isMovieIdAndVerticalIndexAreEqual,
     required this.isTrailerIdAndHorizontalIndexAreEqual,
     required this.videoService,
+    required this.videoPlayerHandler,
   });
   final String videoURL;
   final bool isMovieIdAndVerticalIndexAreEqual;
   final bool isTrailerIdAndHorizontalIndexAreEqual;
   final IVideoPlayerControllersService videoService;
+  final VideoPlayerHandler videoPlayerHandler;
 
   @override
   State<VideoWidget> createState() => _VideoWidgetState();
 }
 
 class _VideoWidgetState extends State<VideoWidget> {
-  final VideoPlayerHandler videoPlayerHandler = VideoPlayerHandler();
   @override
   void initState() {
-    videoPlayerHandler.initializeVideoController(
-        videoPlayerController:
-            widget.videoService.getController(widget.videoURL));
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
+    widget.videoPlayerHandler
+        .initializeVideoController(
+      videoPlayerController: widget.videoService.getController(widget.videoURL),
+    )
+        .then(
+      (value) {
+        _checkShouldVideoPlay();
+      },
+    );
     super.didChangeDependencies();
-    _checkShouldVideoPlay();
   }
 
   @override
   void didUpdateWidget(VideoWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _checkShouldVideoPlay();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        if (oldWidget.isTrailerIdAndHorizontalIndexAreEqual !=
+                widget.isTrailerIdAndHorizontalIndexAreEqual ||
+            oldWidget.isMovieIdAndVerticalIndexAreEqual !=
+                widget.isMovieIdAndVerticalIndexAreEqual) {
+          _checkShouldVideoPlay();
+        } else {}
+      },
+    );
   }
 
   @override
   void dispose() {
     widget.videoService
-        .clearController(controller: videoPlayerHandler.videoController);
+        .clearController(controller: widget.videoPlayerHandler.videoController);
     super.dispose();
   }
 
   void _checkShouldVideoPlay() {
     if (widget.isMovieIdAndVerticalIndexAreEqual &&
         widget.isTrailerIdAndHorizontalIndexAreEqual) {
-      videoPlayerHandler.playVideo();
+      widget.videoPlayerHandler.playVideo();
     } else {
-      videoPlayerHandler.pauseVideo();
+      widget.videoPlayerHandler.pauseVideo();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    switch (videoPlayerHandler.videoPlayerState) {
+    switch (widget.videoPlayerHandler.videoPlayerState) {
       case VideoPlayerState.loading:
         return const LoadingWidget();
       case VideoPlayerState.playing:
@@ -73,11 +88,11 @@ class _VideoWidgetState extends State<VideoWidget> {
             alignment: Alignment.center,
             children: [
               VideoPlayer(
-                videoPlayerHandler.videoController,
+                widget.videoPlayerHandler.videoController,
               ),
               IconButton(
                 onPressed: () async {
-                  videoPlayerHandler.onPlayButtonClicked();
+                  widget.videoPlayerHandler.onPlayButtonClicked();
                 },
                 icon: Icon(
                   Icons.pause,
@@ -95,11 +110,11 @@ class _VideoWidgetState extends State<VideoWidget> {
             alignment: Alignment.center,
             children: [
               VideoPlayer(
-                videoPlayerHandler.videoController,
+                widget.videoPlayerHandler.videoController,
               ),
               IconButton(
                 onPressed: () async {
-                  videoPlayerHandler.onPlayButtonClicked();
+                  widget.videoPlayerHandler.onPlayButtonClicked();
                 },
                 icon: Icon(Icons.play_arrow, size: 72, color: secondaryColor),
               ),
