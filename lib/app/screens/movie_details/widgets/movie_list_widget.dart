@@ -48,9 +48,9 @@ class _MovieListWidgetState extends State<MovieListWidget> {
 
   @override
   void dispose() {
-  //  widget.videoService.disposeControllers();
     log('DISPOSE MOVIE LIST');
     super.dispose();
+    widget.videoService.disposeControllers();
   }
 
   @override

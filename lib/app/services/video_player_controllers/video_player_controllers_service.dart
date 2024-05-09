@@ -10,10 +10,10 @@ class VideoPlayerControllersService implements IVideoPlayerControllersService {
   final int _maxQuantityOfControllers = 6;
 
   VideoPlayerControllersService() {
-    _setDefaultURLForControllers();
+    _generateDefaultURLForControllers();
   }
 
-  void _setDefaultURLForControllers() {
+  void _generateDefaultURLForControllers() {
     log('INIT CONTROLLERS');
     _videoControllers = List.generate(
       _maxQuantityOfControllers,
@@ -49,6 +49,13 @@ class VideoPlayerControllersService implements IVideoPlayerControllersService {
       _prepareVideoController(''),
     );
     controller.dispose();
+  }
+
+  @override
+  void disposeControllers() {
+    for (var element in _videoControllers) {
+      element.dispose();
+    }
   }
 
   void _replaceControllerInVideoControllersList(
