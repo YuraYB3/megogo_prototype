@@ -47,8 +47,6 @@ class MovieDetailsViewModel extends ChangeNotifier {
 
   void _saveTrailerId(int index, String documentId) {
     log('SAVING ID FOR MOVIE $_movieId WITH TRAILER ID $index');
-    log(_trailersHistory.toString());
     _trailersHistory[documentId] = index;
-    log(_trailersHistory.toString());
   }
 }

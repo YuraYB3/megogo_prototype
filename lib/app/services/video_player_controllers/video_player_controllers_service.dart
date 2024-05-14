@@ -63,7 +63,7 @@ class VideoPlayerControllersService implements IVideoPlayerControllersService {
     _videoControllers[index] = controller;
   }
 
-  int _checkIndex(int index) => index != -1 ? index : 0;
+  int _checkIndex(int index) => index == -1 ? 0 : index;
 
   VideoPlayerController _prepareVideoController(String videoURL) {
     return VideoPlayerController.networkUrl(Uri.parse(videoURL));

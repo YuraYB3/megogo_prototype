@@ -13,7 +13,7 @@ class VideoPlayerHandler extends ChangeNotifier {
   VideoPlayerState _videoPlayerState = VideoPlayerState.loading;
   VideoPlayerState get videoPlayerState => _videoPlayerState;
 
-  VideoState _videoState = VideoState.onPause;
+  VideoState _videoState = VideoState.playing;
   VideoState get videoState => _videoState;
 
   Future<void> initializeVideoController(
