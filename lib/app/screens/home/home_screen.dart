@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:megogo_prototype/app/common/widgets/loading_widget.dart';
 import 'package:megogo_prototype/app/screens/home/home_view_model.dart';
 import 'package:megogo_prototype/app/theme/colors_palette.dart';
-import 'package:megogo_prototype/domain/movie/imovie.dart';
 
 import 'widgets/custom_grid.dart';
 import 'widgets/header_widget.dart';
@@ -22,42 +21,33 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    widget.model.init();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: mainColor,
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              const HeaderWidget(),
-              Expanded(
-                child: StreamBuilder<List<IMovie>>(
-                  stream: widget.model.movieStreamList,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text(
-                          "ERROR${snapshot.error}",
-                          style: TextStyle(color: secondaryColor, fontSize: 24),
-                        ),
-                      );
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const LoadingWidget();
-                    }
-                    final List<IMovie> movieData = snapshot.data!;
-                    return CustomGrid(
-                      movieData: movieData,
-                      onCellClicked: widget.model.onPosterClicked,
-                    );
-                  },
+        backgroundColor: mainColor,
+        body: switch (widget.model.homeViewState) {
+          HomeViewState.loading => const LoadingWidget(),
+          HomeViewState.readyToWork => SingleChildScrollView(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  children: [
+                    const HeaderWidget(),
+                    Expanded(
+                      child: CustomGrid(
+                        movieData: widget.model.movieList,
+                        onCellClicked: widget.model.onPosterClicked,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+        });
   }
 }

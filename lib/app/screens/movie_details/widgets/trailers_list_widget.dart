@@ -69,26 +69,26 @@ class _TrailersListState extends State<TrailersListWidget> {
           return Column(
             children: [
               Expanded(
-                  child: widget.isMovieIdAndVerticalIndexAreEqual ||
-                          index == trailerId
-                      ? ChangeNotifierProvider(
-                          create: (context) => VideoPlayerHandler(),
-                          child: Consumer<VideoPlayerHandler>(
-                            builder: (context, value, child) {
-                              return VideoWidget(
-                                videoService: widget.videoService,
-                                videoURL: widget.movie.trailer[index]
-                                    [trailerURL],
-                                isMovieIdAndVerticalIndexAreEqual:
-                                    widget.isMovieIdAndVerticalIndexAreEqual,
-                                isTrailerIdAndHorizontalIndexAreEqual:
-                                    index == trailerId,
-                                videoPlayerHandler: value,
-                              );
-                            },
-                          ),
-                        )
-                      : Container()),
+                child: widget.isMovieIdAndVerticalIndexAreEqual ||
+                        index == trailerId
+                    ? ChangeNotifierProvider(
+                        create: (context) => VideoPlayerHandler(),
+                        child: Consumer<VideoPlayerHandler>(
+                          builder: (context, value, child) {
+                            return VideoWidget(
+                              videoService: widget.videoService,
+                              videoURL: widget.movie.trailer[index][trailerURL],
+                              isMovieIdAndVerticalIndexAreEqual:
+                                  widget.isMovieIdAndVerticalIndexAreEqual,
+                              isTrailerIdAndHorizontalIndexAreEqual:
+                                  index == trailerId,
+                              videoPlayerHandler: value,
+                            );
+                          },
+                        ),
+                      )
+                    : Container(),
+              ),
               widget.isMovieIdAndVerticalIndexAreEqual
                   ? Padding(
                       padding: const EdgeInsets.only(top: 10),

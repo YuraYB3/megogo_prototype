@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:megogo_prototype/app/routing/routes.dart';
@@ -7,16 +7,23 @@ import 'package:megogo_prototype/domain/navigation/inavigation_util.dart';
 
 import '../../../domain/movie/imovie.dart';
 
+enum HomeViewState { loading, readyToWork }
+
 class HomeViewModel extends ChangeNotifier {
   final INavigationUtil _navigationUtil;
   final IMovieRepository _movieRepository;
-  late Stream<List<IMovie>> _movieStreamList;
-  Stream<List<IMovie>> get movieStreamList => _movieStreamList;
+  late List<IMovie> _movieList;
+  List<IMovie> get movieList => _movieList;
+
+  HomeViewState _homeViewState = HomeViewState.loading;
+  HomeViewState get homeViewState => _homeViewState;
   HomeViewModel(
       {required INavigationUtil navigationUtil,
       required IMovieRepository movieRepository})
       : _navigationUtil = navigationUtil,
-        _movieRepository = movieRepository {
+        _movieRepository = movieRepository;
+
+  void init() {
     _fetchMoviesStream();
   }
 
@@ -27,11 +34,16 @@ class HomeViewModel extends ChangeNotifier {
 
   Future<void> _fetchMoviesStream() async {
     try {
-      _movieStreamList = _movieRepository.fetchMoviesStream();
-      notifyListeners();
-      print('got ');
+      _movieList = await _movieRepository.fetchMoviesStream().first;
+      _updateHomeViewState(HomeViewState.readyToWork);
+      log('got');
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
     }
+  }
+
+  void _updateHomeViewState(HomeViewState state) {
+    _homeViewState = state;
+    notifyListeners();
   }
 }

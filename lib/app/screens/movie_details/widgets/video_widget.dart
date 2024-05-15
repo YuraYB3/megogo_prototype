@@ -84,10 +84,10 @@ class _VideoWidgetState extends State<VideoWidget> {
           padding: const EdgeInsets.all(20.0),
           child: GestureDetector(
             onTapDown: (_) {
-              widget.videoPlayerHandler.onPlayButtonClicked();
+              widget.videoPlayerHandler.pauseVideo();
             },
             onTapUp: (_) {
-              widget.videoPlayerHandler.onPlayButtonClicked();
+              widget.videoPlayerHandler.playVideo();
             },
             child: VideoPlayer(
               widget.videoPlayerHandler.videoController,
